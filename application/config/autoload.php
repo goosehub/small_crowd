@@ -18,6 +18,11 @@ date_default_timezone_set('America/New_York');
 // 
 
 // Return if this is dev
+function site_name() {
+    return 'Four Rooms';
+}
+
+// Return if this is dev
 function is_dev() {
     if ($_SERVER['HTTP_HOST'] === 'localhost') {
         return true;

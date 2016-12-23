@@ -8,12 +8,12 @@ if (is_dev()) {
 	$hostname = 'localhost';
 	$username = 'root';
 	$password = 'root';
-	$database = 'goose_start';
+	$database = 'four_rooms';
 } else {
 	$hostname = 'localhost';
 	$username = 'root';
 	$password = file_get_contents('auth.php');
-	$database = 'goose_start';
+	$database = 'four_rooms';
 }
 
 $db['default'] = array(
