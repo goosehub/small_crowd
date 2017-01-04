@@ -21,6 +21,10 @@ $(window).scroll(function() {
   }
 });
 
+window.onload = function () {
+  scroll_to_bottom();
+}
+
 // New Message
 function submit_new_message(e) {
   // Message input
