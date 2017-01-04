@@ -1,20 +1,3 @@
-<!-- Chat HTML -->
-<div id="chat_parent">
-  <div id="chat_messages_parent">
-    <div id="chat_messages_box">
-      Loading...
-    </div>
-  </div>
-
-  <div id="chat_input_parent">
-    <form name="new_chat" id="new_chat" onsubmit="return chat_submit_function()">
-      <input type="text" name="chat_input" class="form-control" id="chat_input" autocomplete="off" value="" placeholder="chat" />
-      <!-- submit button positioned off screen -->
-      <input name="submit_chat" type="submit" id="submit_chat" value="true" style="position: absolute; left: -9999px">
-    </form>
-  </div>
-</div>
-
 <!-- Chat Script -->
 <script>
   var room_key = <?php echo $room['id']; ?>;
@@ -27,12 +10,17 @@
         type: "POST",
         data: { room_key: room_key },
         cache: false,
-        success: function(html)
+        success: function(json)
         {
-            if (!html.startsWith('<div id="chat_check"></div>')) {
+            chats = JSON.parse(json);
+            if (!chats) {
               return false;
             }
-            html = replaceURLWithHTMLLinks(html)
+            var html = '';
+            $.each(chats, function(i, chat) {
+              var chat_message = replaceURLWithHTMLLinks(chat.message);
+              html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + chat.color + '""></span><span class="message_username">' + chat.username + '</span>: <span class="message_message">' + chat_message + '</span></div>';
+            });
             $("#chat_messages_box").html(html);
             $("#chat_messages_box").scrollTop($("#chat_messages_box")[0].scrollHeight);
         }
@@ -41,10 +29,7 @@
   chat_load();
 
   // Chat Loop
-  chat_interval = 3 * 1000;
-  if (document.location.hostname == "localhost") {
-    chat_interval = 10 * 1000;
-  }
+  var chat_interval = <?php echo $chat_interval; ?>;
   setInterval(chat_load, chat_interval);
 
   // Called by form

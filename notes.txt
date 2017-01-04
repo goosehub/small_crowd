@@ -13,11 +13,12 @@ Experience
     You are talking with someone from somewhere
 
 Todo
-    Chat
+    Chat to json
     Youtube
     Other stuff
     Users have color
     Detect users leaving
+    Color
     Rename database
 
 New room generation

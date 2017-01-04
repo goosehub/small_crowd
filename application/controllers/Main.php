@@ -73,10 +73,11 @@ class Main extends CI_Controller {
     public function room($slug)
     {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
+        $data['chat_interval'] = 3 * 1000;
         $data['page_title'] = site_name();
         $this->load->view('template/header', $data);
         $this->load->view('main', $data);
-        $this->load->view('chat', $data);
+        $this->load->view('chat_script', $data);
         $this->load->view('template/footer', $data);
     }
 

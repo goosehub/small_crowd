@@ -14,22 +14,14 @@ class Chat extends CI_Controller {
 	public function load()
 	{
         // Set parameters
-        $room_key = $_POST['room_key'];
-        $limit = 12;
+        $room_key = $this->input->post('room_key');
+        $limit = 30;
 
         // Get chats and reverse array
         $chats = $this->chat_model->load_chat_by_limit($room_key, $limit);
         $chats = array_reverse($chats);
 
-        // Verify everything is okay
-        echo '<div id="chat_check"></div>';
-
-        // Echo out chats
-        foreach ($chats as $chat) {
-            echo '<div class="chat_message"><span class="glyphicon glyphicon-user" style="color: ' . $chat['color'] . '""></span>' 
-            . $chat['username'] . ': ' . $chat['message'] . '</div>';
-        }
-        return true;
+        echo json_encode($chats);
     }
 
     // For new chats

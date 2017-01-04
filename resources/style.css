@@ -62,3 +62,11 @@ body {
   bottom: 0;
   width: 100%;
 }
+
+.message_username {
+  font-weight: bold;
+}
+.message_parent {
+  font-size: 1.2em;
+  padding: 0.2em;
+}
