@@ -14,9 +14,12 @@ Todo
     Twitch
     Ensure good hyperlinking
     Facebook type hyperlinking
-    XSS check
+    XSS ensure
     Each user have color
+    New column in messages for system messages
+    Message when users join
     Detect users leaving
+    Allow joining full rooms by URL, but not search
 
 ==========================================================================================
     Goals

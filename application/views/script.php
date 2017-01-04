@@ -53,7 +53,9 @@ messages_load(true);
 
 // Interval Load
 var load_interval = <?php echo $load_interval; ?>;
-setInterval(messages_load(false), load_interval);
+setInterval(function(){
+  messages_load(false);
+}, load_interval);
 
 // New Message
 function submit_new_message(e) {
