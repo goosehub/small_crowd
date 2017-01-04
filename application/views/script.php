@@ -164,7 +164,7 @@ function convert_image_url(input) {
 
 function convert_general_url(input) {
   // Ignore " to not conflict with other converts
-  var pattern = /(?!.*")([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*))/gi;
+  var pattern = /(?!.*")([-a-zA-Z0-9@:%_\+.~#?&//=;]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=;]*))/gi;
   if (pattern.test(input)) {
     var replacement = '<a href="$1" target="_blank">$1</a>';
     var input = input.replace(pattern, replacement);

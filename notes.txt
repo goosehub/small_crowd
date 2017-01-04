@@ -18,7 +18,10 @@ Media
     Youtube
     Vimeo
     Twitch
+    Vocaroo
     Image URL
+    Video URL
+    General URL
 
 ==========================================================================================
     Goals
