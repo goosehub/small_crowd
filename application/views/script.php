@@ -86,11 +86,13 @@ function messages_load(inital_load) {
             return true;
           }
           // Convert URLs to content
-          // Always do convert_url last
+          // Order important
           var message_message = message.message;
           message_message = convert_youtube(message_message);
           message_message = convert_vimeo(message_message);
           message_message = convert_twitch(message_message);
+          message_message = convert_vocaroo(message_message);
+          message_message = convert_video_url(message_message);
           message_message = convert_image_url(message_message);
           // message_message = convert_url(message_message);
           html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + message.color + '""></span><span class="message_username">' + message.username + '</span>: <span class="message_message">' + message_message + '</span></div>';
@@ -133,6 +135,24 @@ function convert_twitch(input) {
   return input;
 }
 
+function convert_vocaroo(input) {
+  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vocaroo\.com\/i)\/?(.+)/g;
+  if (pattern.test(input)) {
+   var replacement = '<object width="148" height="44"><param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0"></param><param name="wmode" value="transparent"></param><embed src="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></embed></object>';
+   var input = input.replace(pattern, replacement);
+  }
+  return input;
+}
+
+function convert_video_url(input) {
+  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:webm|mp4|ogv))/gi;
+  if (pattern.test(input)) {
+    var replacement = '<video controls="" loop="" controls src="$1" style="max-width: 960px; max-height: 676px;"></video>';
+    var input = input.replace(pattern, replacement);
+  }
+  return input;
+}
+
 function convert_image_url(input) {
   var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png))/gi;
   if (pattern.test(input)) {
@@ -142,9 +162,9 @@ function convert_image_url(input) {
   return input;
 }
 
-function convert_url(text) {
+function convert_url(input) {
   var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
-  return text.replace(exp,"<a target='_blank' style='color: #CCCCFF' href='$1'>$1</a>"); 
+  return input.replace(exp,"<a target='_blank' style='color: #CCCCFF' href='$1'>$1</a>"); 
 }
 
 function scroll_to_bottom() {
