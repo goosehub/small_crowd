@@ -18,6 +18,7 @@ Todo
     Other stuff
     Users have color
     Detect users leaving
+    Rename database
 
 New room generation
     ajax form
