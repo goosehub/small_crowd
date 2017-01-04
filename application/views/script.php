@@ -145,7 +145,7 @@ function convert_vocaroo(input) {
 }
 
 function convert_video_url(input) {
-  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:webm|mp4|ogv))?(\S+)/gi;
+  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:webm|mp4|ogv))/gi;
   if (pattern.test(input)) {
     var replacement = '<video controls="" loop="" controls src="$1" style="max-width: 960px; max-height: 676px;"></video>';
     var input = input.replace(pattern, replacement);
@@ -154,7 +154,7 @@ function convert_video_url(input) {
 }
 
 function convert_image_url(input) {
-  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png))?(\S+)/gi;
+  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png))/gi;
   if (pattern.test(input)) {
     var replacement = '<a href="$1" target="_blank"><img class="sml" src="$1" /></a><br />';
     var input = input.replace(pattern, replacement);
@@ -164,7 +164,7 @@ function convert_image_url(input) {
 
 function convert_general_url(input) {
   // Ignore " to not conflict with other converts
-  var pattern = /(?!.*")([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*))?(\S+)/gi;
+  var pattern = /(?!.*")([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*))/gi;
   if (pattern.test(input)) {
     var replacement = '<a href="$1" target="_blank">$1</a>';
     var input = input.replace(pattern, replacement);

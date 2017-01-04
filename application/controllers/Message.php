@@ -17,7 +17,7 @@ class Message extends CI_Controller {
         $room_key = $this->input->post('room_key');
         $inital_load = $this->input->post('inital_load');
         if ($inital_load) {
-            $limit = 100;
+            $limit = 50;
         }
         else {
             $limit = 5;
