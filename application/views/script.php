@@ -57,8 +57,6 @@ setInterval(messages_load(false), load_interval);
 
 // New Message
 function submit_new_message(e) {
-  // Empty chat input
-  $('#message_input').val('');
   // Message input
   var message_input = $("#message_input").val();
   $.ajax({
@@ -71,6 +69,8 @@ function submit_new_message(e) {
       cache: false,
       success: function(response) {
         console.log('submit');
+        // Empty chat input
+        $('#message_input').val('');
         // All responses are error messsages
         if (response) {
           alert(response);

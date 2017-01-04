@@ -7,7 +7,7 @@
         </div>
       </div>
       <div id="message_input_parent">
-        <form name="new_message" id="new_message" onsubmit="return submit_new_message()">
+        <form id="new_message" onsubmit="return submit_new_message()">
           <input type="text" name="message_input" class="form-control" id="message_input" autocomplete="off" value="" placeholder="message" />
           <!-- submit button positioned off screen -->
           <input name="submit_message" type="submit" id="submit_message" value="true" style="position: absolute; left: -9999px">
