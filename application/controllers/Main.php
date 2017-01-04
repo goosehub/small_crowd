@@ -32,8 +32,9 @@ class Main extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
             // Set fail message and redirect to map
             $this->session->set_flashdata('validation_errors', validation_errors());
-            redirect(base_url() . 'error');
+            header('Location: ' . base_url() . 'error');
             return false;
+            exit();
         }
 
         // Input
@@ -67,17 +68,21 @@ class Main extends CI_Controller {
         );
         $this->session->set_userdata('logged_in', $sess_array);
 
-        redirect('room/' . $available_room['slug']);
+        header('Location: ' . 'room/' . $available_room['slug']);
+        exit();
     }
 
     public function room($slug)
     {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
-        $data['chat_interval'] = 3 * 1000;
+        $data['load_interval'] = 1 * 1000;
+        if (is_dev()) {
+            $data['load_interval'] = 3 * 1000;
+        }
         $data['page_title'] = site_name();
         $this->load->view('template/header', $data);
         $this->load->view('main', $data);
-        $this->load->view('chat_script', $data);
+        $this->load->view('script', $data);
         $this->load->view('template/footer', $data);
     }
 
@@ -85,7 +90,6 @@ class Main extends CI_Controller {
     {
         $data['page_title'] = site_name();
         $this->load->view('template/header', $data);
-        $this->load->view('main', $data);
         $this->load->view('template/footer', $data);
     }
 

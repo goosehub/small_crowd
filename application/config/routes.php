@@ -1,9 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// Chat functions
-$route['chat/load'] = "chat/load";
-$route['chat/new_chat'] = "chat/new_chat";
+$route['message/load'] = "message/load";
+$route['message/new_message'] = "message/new_message";
 
 $route['default_controller'] = 'main/start';
 $route['new'] = 'main/new_room';

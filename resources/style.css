@@ -1,13 +1,41 @@
 /* Global */
-
 body {
   background-color: #222;
   color: #fff;
+  font-family: "Roboto", sans-serif;
 }
 
-/* Font Classes */
-.roboto {
-  font-family: "Roboto", sans-serif;
+/* Content */
+.message_outer_parent {
+  font-size: 1.2em;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.message_username {
+  font-weight: bold;
+}
+
+/* Media */
+.share_video {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 33vh;
+}
+.share_image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Inputs */
+#message_input_parent {
+  /*position: absolute;*/
+  z-index: 10;
+  width: 100%;
+  max-width: 100vw;
+  /*bottom: 0;*/
 }
 
 /* Orange Action Bootstrap-Styled Button */
@@ -42,31 +70,4 @@ body {
   color: #333 !important; 
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.00); 
   -webkit-font-smoothing: antialiased;
-}
-
-/* Videos */
-.share_video {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  min-height: 33vh;
-}
-.share_image {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#chat_input_parent {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
-.message_username {
-  font-weight: bold;
-}
-.message_parent {
-  font-size: 1.2em;
-  padding: 0.2em;
 }

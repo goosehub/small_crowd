@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `four_rooms`
+-- Database: `small_crowd`
 --
 
 -- --------------------------------------------------------
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `chat`
 --
 
-CREATE TABLE IF NOT EXISTS `chat` (
+CREATE TABLE IF NOT EXISTS `message` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_key` int(10) unsigned NOT NULL,
   `room_key` int(10) unsigned NOT NULL,

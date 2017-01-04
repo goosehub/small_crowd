@@ -2,67 +2,21 @@
     Notes
 ==========================================================================================
 
-Idea
-    Chat and media sharing groups of 3-6
-Name
-    Stranger Stream
-Experience
-    start
-    Optional Fields name and location
-    URL with token string
-    You are talking with someone from somewhere
-
 Todo
-    Chat to json
+    Link to start over
+    Horizontal overflow
+    Smart scroll bottom
     Youtube
-    Other stuff
-    Users have color
+    Image URL
+    Image Upload
+    Video Upload
+    Soundcloud embed
+    Twitch
+    Ensure good hyperlinking
+    Facebook type hyperlinking
+    XSS check
+    Each user have color
     Detect users leaving
-    Color
-    Rename database
-
-New room generation
-    ajax form
-    searching interface
-    find room
-    if room, join room and add as user
-    if no room with n or less people, start room
-
-Landing page
-    Background images of 4 people groups
-    Background 4 css squares of color
-
-table
-    id
-    slug
-    last_load
-    created
-users
-    id
-    table_key
-    name
-    location
-        age
-        sex
-        color
-        picture
-    created
-
-    Location
-    Sex
-    Age
-    Picture
-
-Known issues
-    Sex Age Location
-    Leaving Instantly
-
-Text
-Youtube
-Images
-WebM
-Soundcloud
-Twitch
 
 ==========================================================================================
     Goals
