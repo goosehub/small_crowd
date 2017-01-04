@@ -13,7 +13,7 @@ body {
   overflow-x: hidden;
 }
 #message_content_parent {
-  margin-bottom: 2em;
+  margin-bottom: 4em;
 }
 .message_username {
   font-weight: bold;
@@ -39,6 +39,9 @@ body {
   width: 100%;
   max-width: 100vw;
   bottom: 0;
+}
+#message_input {
+  height: 4em;
 }
 
 /* Join New */

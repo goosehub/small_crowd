@@ -4,17 +4,14 @@
 
 Todo
     Enable button to start over without reentering information
-    Image Upload
-    Video Upload
-    Soundcloud embed
-    Ensure good hyperlinking
-    Facebook type hyperlinking
-    XSS ensure
     Each user have color
     New column in messages for system messages
     Message when users join
     Detect users leaving
-    Allow joining full rooms by URL, but not search
+    Allow joining full rooms by URL, but not matchmaking
+    security audit
+    XSS audit
+    Performance audit
 
 Media
     Text
@@ -29,9 +26,11 @@ Media
 
 High Priority
 
-Moderate Priority
-
 Low Priority
+    Facebook type hyperlinking
+    Consider regex on submit instead
+    Image Upload
+    Video Upload
 
 No Priority
 

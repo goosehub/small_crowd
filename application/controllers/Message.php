@@ -17,10 +17,10 @@ class Message extends CI_Controller {
         $room_key = $this->input->post('room_key');
         $inital_load = $this->input->post('inital_load');
         if ($inital_load) {
-            $limit = 1000;
+            $limit = 100;
         }
         else {
-            $limit = 10;
+            $limit = 5;
         }
 
         // Get messages
