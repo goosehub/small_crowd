@@ -3,9 +3,7 @@
 ==========================================================================================
 
 Todo
-    Link to start over
-    Horizontal overflow
-    Smart scroll bottom
+    Enable button to start over without reentering information
     Youtube
     Image URL
     Image Upload

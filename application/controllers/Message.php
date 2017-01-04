@@ -34,12 +34,11 @@ class Message extends CI_Controller {
 
     // For new messages
     public function new_message()
-    {                
-        $message_length_limit = 10000;
+    {
         // Validation
         $this->load->library('form_validation');
         $this->form_validation->set_rules('room_key', 'World Key', 'trim|required|integer|max_length[10]|callback_new_message_validation');
-        $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[5000]');
+        $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[1000]');
         // $this->form_validation->set_rules('token', 'Token', 'trim|max_length[1000]');
 
         if ($this->form_validation->run() == FALSE) {
