@@ -4,52 +4,6 @@ var room_key = <?php echo $room['id']; ?>;
 var current_message = 0;
 var at_bottom = true;
 
-// Message Load
-function messages_load(inital_load) {
-  $.ajax({
-      url: "<?=base_url()?>message/load",
-      type: "POST",
-      data: {
-        room_key: room_key,
-        inital_load: inital_load
-      },
-      cache: false,
-      success: function(response) {
-        console.log('load');
-        var html = '';
-        // On inital load, clear loading html
-        if (inital_load) {
-          $("#message_content_parent").html(html);
-        }
-        // Emergency force reload
-        if (response === 'reload') {
-          window.location.reload(true);
-        }
-        // Parse messages and loop through them
-        messages = JSON.parse(response);
-        if (!messages) {
-          return false;
-        }
-        $.each(messages, function(i, message) {
-          // Skip if we already have this message
-          if (message.id <= current_message) {
-            return true;
-          }
-          // Replace URLs with hyperlinks
-          var message_message = replaceURLWithHTMLLinks(message.message);
-          html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + message.color + '""></span><span class="message_username">' + message.username + '</span>: <span class="message_message">' + message_message + '</span></div>';
-          current_message = message.id;
-        });
-        // Append to div
-        $("#message_content_parent").append(html);
-        // Stay at bottom if at bottom
-        if (at_bottom) {
-          scroll_to_bottom();
-        }
-      }
-  });
-}
-
 // Initial Load
 messages_load(true);
 
@@ -100,7 +54,95 @@ function submit_new_message(e) {
   return false;
 }
 
-function replaceURLWithHTMLLinks(text) {
+// Message Load
+function messages_load(inital_load) {
+  $.ajax({
+      url: "<?=base_url()?>message/load",
+      type: "POST",
+      data: {
+        room_key: room_key,
+        inital_load: inital_load
+      },
+      cache: false,
+      success: function(response) {
+        console.log('load');
+        var html = '';
+        // On inital load, clear loading html
+        if (inital_load) {
+          $("#message_content_parent").html(html);
+        }
+        // Emergency force reload
+        if (response === 'reload') {
+          window.location.reload(true);
+        }
+        // Parse messages and loop through them
+        messages = JSON.parse(response);
+        if (!messages) {
+          return false;
+        }
+        $.each(messages, function(i, message) {
+          // Skip if we already have this message
+          if (message.id <= current_message) {
+            return true;
+          }
+          // Convert URLs to content
+          // Always do convert_url last
+          var message_message = message.message;
+          message_message = convert_youtube(message_message);
+          message_message = convert_vimeo(message_message);
+          message_message = convert_twitch(message_message);
+          message_message = convert_image_url(message_message);
+          // message_message = convert_url(message_message);
+          html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + message.color + '""></span><span class="message_username">' + message.username + '</span>: <span class="message_message">' + message_message + '</span></div>';
+          current_message = message.id;
+        });
+        // Append to div
+        $("#message_content_parent").append(html);
+        // Stay at bottom if at bottom
+        if (at_bottom) {
+          scroll_to_bottom();
+        }
+      }
+  });
+}
+
+function convert_youtube(input) {
+  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g;
+  if (pattern.test(input)) {
+    var replacement = '<iframe width="420" height="345" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>';
+    var input = input.replace(pattern, replacement);
+  }
+  return input;
+}
+
+function convert_vimeo(input) {
+  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vimeo\.com)\/?(.+)/g;
+  if (pattern.test(input)) {
+   var replacement = '<iframe width="420" height="345" src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+   var input = input.replace(pattern, replacement);
+  }
+  return input;
+}
+
+function convert_twitch(input) {
+  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:twitch\.tv)\/?(.+)/g;
+  if (pattern.test(input)) {
+   var replacement = '<iframe src="https://player.twitch.tv/?channel=$1&!autoplay" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>';
+   var input = input.replace(pattern, replacement);
+  }
+  return input;
+}
+
+function convert_image_url(input) {
+  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png))/gi;
+  if (pattern.test(input)) {
+    var replacement = '<a href="$1" target="_blank"><img class="sml" src="$1" /></a><br />';
+    var input = input.replace(pattern, replacement);
+  }
+  return input;
+}
+
+function convert_url(text) {
   var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
   return text.replace(exp,"<a target='_blank' style='color: #CCCCFF' href='$1'>$1</a>"); 
 }

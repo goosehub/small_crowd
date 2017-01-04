@@ -4,12 +4,9 @@
 
 Todo
     Enable button to start over without reentering information
-    Youtube
-    Image URL
     Image Upload
     Video Upload
     Soundcloud embed
-    Twitch
     Ensure good hyperlinking
     Facebook type hyperlinking
     XSS ensure
@@ -18,6 +15,13 @@ Todo
     Message when users join
     Detect users leaving
     Allow joining full rooms by URL, but not search
+
+Media
+    Text
+    Youtube
+    Vimeo
+    Twitch
+    Image URL
 
 ==========================================================================================
     Goals
