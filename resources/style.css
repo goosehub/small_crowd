@@ -1,8 +1,16 @@
 /* Global */
 body {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Color Scheme */
+body {
   background-color: #222;
   color: #fff;
-  font-family: "Roboto", sans-serif;
+}
+#message_input {
+  background-color: #F4FAFF;
+  color: #222;
 }
 
 /* Content */
@@ -15,8 +23,15 @@ body {
 #message_content_parent {
   margin-bottom: 4em;
 }
+.message_username, .message_icon {
+  font-size: 1.2em;
+}
 .message_username {
   font-weight: bold;
+  margin-right: 0.2em;
+}
+.message_username:after {
+  content: ':';
 }
 
 /* Media */
