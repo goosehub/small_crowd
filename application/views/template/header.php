@@ -11,7 +11,7 @@
     <title><?php echo $page_title; ?></title>
 
     <!-- Link to Favicon -->
-    <link rel="icon" href="<?=base_url()?>resources/favicon.ico">
+    <link rel="icon" href="<?=base_url()?>resources/img/favicon.ico">
 
     <!-- Bootstrap -->
     <link href="<?=base_url()?>resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -24,6 +24,9 @@
 
     <!-- jQuery -->
     <script src="<?=base_url()?>resources/jquery/jquery-3.1.1.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="<?=base_url()?>resources/randomColor/randomColor.js"></script>
     
     <!-- Bootstrap -->
     <script src="<?=base_url()?>resources/bootstrap/js/bootstrap.min.js"></script>

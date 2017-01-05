@@ -55,10 +55,10 @@ class Message extends CI_Controller {
         $data['user'] = $this->main_model->get_user_by_id($user_id);
 
         // Set variables
-        $room_key = $_POST['room_key'];
+        $room_key = $this->input->post('room_key');
         $username = $data['user']['username'];
         $color = $data['user']['color'];
-        $message = htmlspecialchars($_POST['message_input']);
+        $message = htmlspecialchars($this->input->post('message_input'));
 
         // Insert message
         $result = $this->message_model->new_message($user_id, $username, $color, $message, $room_key);

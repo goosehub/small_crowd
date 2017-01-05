@@ -2,16 +2,24 @@
     Notes
 ==========================================================================================
 
-Todo
-    Enable button to start over without reentering information
-    Each user have color
-    New column in messages for system messages
+High Priority
     Message when users join
     Detect users leaving
     Allow joining full rooms by URL, but not matchmaking
-    security audit
+
+Low Priority
+    Security audit
     XSS audit
     Performance audit
+    Consider regex on submit instead
+    Image Upload
+    Video Upload
+
+No Priority
+
+==========================================================================================
+    Documentation
+==========================================================================================
 
 Media
     Text
@@ -22,21 +30,3 @@ Media
     Image URL
     Video URL
     General URL
-
-==========================================================================================
-    Goals
-==========================================================================================
-
-High Priority
-
-Low Priority
-    Facebook type hyperlinking
-    Consider regex on submit instead
-    Image Upload
-    Video Upload
-
-No Priority
-
-==========================================================================================
-    Documentation
-==========================================================================================

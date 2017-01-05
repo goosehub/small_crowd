@@ -21,7 +21,7 @@ class Main extends CI_Controller {
         $this->load->view('template/footer', $data);
     }
 
-    public function new_room()
+    public function join_room()
     {
         // Validation
         $this->load->library('form_validation');
@@ -46,11 +46,11 @@ class Main extends CI_Controller {
         if (!$username) {
             $username = 'Somewhere';
         }
-        $color = '#000000';
+        $color = $this->input->post('color');
         $ip = $_SERVER['REMOTE_ADDR'];
 
         // Look for room
-        $available_room = $this->main_model->get_available_room();
+        $available_room = $this->main_model->get_available_room($this->room_capacity);
 
         // If no room, make one
         if (empty($available_room)) {
@@ -64,7 +64,8 @@ class Main extends CI_Controller {
         
         $sess_array = array(
             'id' => $user_id,
-            'username' => $username
+            'username' => $username,
+            'color' => $color
         );
         $this->session->set_userdata('logged_in', $sess_array);
 

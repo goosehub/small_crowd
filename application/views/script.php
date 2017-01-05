@@ -22,7 +22,10 @@ $(window).scroll(function() {
 });
 
 window.onload = function () {
+  // Scroll to bottom
   scroll_to_bottom();
+  // Focus on chat
+  $('#message_input').focus();
 }
 
 // New Message

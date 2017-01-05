@@ -69,15 +69,16 @@ Class main_model extends CI_Model
        return isset($result[0]) ? $result[0] : false;
     }
 
-    function get_available_room()
+    function get_available_room($room_capacity)
     {
+        $room_capacity = (int) $room_capacity;
         $query = $this->db->query("
             SELECT room.* 
             FROM room
             LEFT JOIN user
                 ON room.id = user.room_key
             GROUP BY room.id
-            HAVING COUNT(user.id) < 4;"
+            HAVING COUNT(user.id) < " . $room_capacity . ";"
             );
         $result = $query->result_array();
         return isset($result[0]) ? $result[0] : false;

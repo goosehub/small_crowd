@@ -5,7 +5,7 @@ $route['message/load'] = "message/load";
 $route['message/new_message'] = "message/new_message";
 
 $route['default_controller'] = 'main/start';
-$route['new'] = 'main/new_room';
+$route['join_room'] = 'main/join_room';
 $route['room/(:any)'] = 'main/room/$1';
 
 $route['error'] = 'main/error';
