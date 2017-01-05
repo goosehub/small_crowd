@@ -15,13 +15,14 @@ body {
 
 /* Content */
 #message_outer_parent {
+  position: fixed;
+  bottom: 4em;
+  max-height: calc(100vh - 4em);
+  overflow: auto;
+  width: 100vw;
   font-size: 1.2em;
-  width: 100%;
   max-width: 100%;
   overflow-x: hidden;
-}
-#message_content_parent {
-  margin-bottom: 4em;
 }
 .message_username, .message_icon {
   font-size: 1.2em;

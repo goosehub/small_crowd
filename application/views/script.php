@@ -102,7 +102,9 @@ function messages_load(inital_load) {
           message_message = convert_video_url(message_message);
           message_message = convert_image_url(message_message);
           message_message = convert_general_url(message_message);
-          html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + message.color + ';"></span><span class="message_username" style="color: ' + LightenDarkenColor(message.color, 10)  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
+          // Lighten color for text
+          var light_color = LightenDarkenColor(message.color, 100);
+          html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
           current_message = message.id;
         });
         // Append to div
@@ -183,30 +185,23 @@ function scroll_to_bottom() {
   window.scrollTo(0,document.body.scrollHeight);
 }
 
+// http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
 function LightenDarkenColor(col,amt) {
     var usePound = false;
     if ( col[0] == "#" ) {
         col = col.slice(1);
         usePound = true;
     }
-
     var num = parseInt(col,16);
-
     var r = (num >> 16) + amt;
-
     if ( r > 255 ) r = 255;
     else if  (r < 0) r = 0;
-
     var b = ((num >> 8) & 0x00FF) + amt;
-
     if ( b > 255 ) b = 255;
     else if  (b < 0) b = 0;
-
     var g = (num & 0x0000FF) + amt;
-
     if ( g > 255 ) g = 255;
     else if  ( g < 0 ) g = 0;
-
     return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 }
 </script>
