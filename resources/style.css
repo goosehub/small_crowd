@@ -15,9 +15,10 @@ body {
 
 /* Content */
 #message_outer_parent {
+  /* Fix chat to bottom */
   position: fixed;
-  bottom: 4em;
   max-height: calc(100vh - 4em);
+  bottom: 4em;
   overflow: auto;
   width: 100vw;
   font-size: 1.2em;
