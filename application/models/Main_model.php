@@ -39,6 +39,42 @@ Class main_model extends CI_Model
         $this->db->delete($table);
     }
 
+    function load_message_by_limit($room_key, $limit)
+    {
+        $this->db->select('*');
+        $this->db->from('message');
+        $this->db->where('room_key', $room_key);
+        $this->db->limit($limit);
+        $this->db->order_by('id', 'desc');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
+    
+    function new_message($user_key, $username, $color, $message, $room_key)
+    {
+        $data = array(
+        'user_key' => $user_key,
+        'username' => $username,
+        'color' => $color,
+        'message' => $message,
+        'room_key' => $room_key
+        );
+        $this->db->insert('message', $data);
+    }
+    // message spam check
+    function recent_messages($user_key, $message_limit_length)
+    {
+        $query = $this->db->query("
+            SELECT COUNT(id) as recent_messages
+            FROM `message`
+            WHERE `user_key` = '" . $user_key . "'
+            AND `timestamp` > (now() - INTERVAL " . $message_limit_length . " SECOND);
+        ");
+        $result = $query->result_array();
+        return isset($result[0]['recent_messages']) ? $result[0]['recent_messages'] : false;
+    }
+
     function get_user_by_id($id)
     {
         $this->db->select('*');
@@ -47,12 +83,6 @@ Class main_model extends CI_Model
         $query = $this->db->get();
         $result = $query->result_array();
         return isset($result[0]) ? $result[0] : false;
-    }
-
-    function remove_user_by_id($user_id)
-    {
-        $this->db->where('id', $user_id);
-        $this->db->delete('user');
     }
 
     function get_room_by_id($id)
@@ -126,14 +156,46 @@ Class main_model extends CI_Model
         $this->db->update('user', $data);
     }
 
-    function users_missing($missing_wait_seconds)
+    function update_room_last_load($room_key)
+    {
+        $data = array(
+            'last_load' => date('Y-m-d H:i:s', time()),
+            'modified' => date('Y-m-d H:i:s', time())
+        );
+        $this->db->where('id', $room_key);
+        $this->db->update('room', $data);
+    }
+
+    function inactive_users($inactive_user_wait_seconds)
     {
         $query = $this->db->query("
             SELECT *
             FROM `user`
-            WHERE `last_load` < (now() - INTERVAL " . $missing_wait_seconds . " SECOND);
+            WHERE `last_load` < (now() - INTERVAL " . $inactive_user_wait_seconds . " SECOND);
         ");
         return $query->result_array();
+    }
+
+    function remove_user_by_id($user_id)
+    {
+        $this->db->where('id', $user_id);
+        $this->db->delete('user');
+    }
+
+    function inactive_rooms($inactive_room_wait_seconds)
+    {
+        $query = $this->db->query("
+            SELECT *
+            FROM `room`
+            WHERE `last_load` < (now() - INTERVAL " . $inactive_room_wait_seconds . " SECOND);
+        ");
+        return $query->result_array();
+    }
+
+    function remove_room_by_id($room_id)
+    {
+        $this->db->where('id', $room_id);
+        $this->db->delete('room');
     }
 }
 ?>

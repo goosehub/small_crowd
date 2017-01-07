@@ -12,7 +12,6 @@ class Main extends CI_Controller {
         parent::__construct();
         // Uncomment after creating database
         $this->load->model('main_model', '', TRUE);
-        $this->load->model('message_model', '', TRUE);
         $this->room_capacity = 4;
         $this->system_user_id = 0;
         $this->system_welcome_slug = 'welcome';
@@ -79,7 +78,7 @@ class Main extends CI_Controller {
 
         // System Welcome Message
         $message = 'Welcome ' . $username . ' from ' . $location;
-        $result = $this->message_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $room_key);
+        $result = $this->main_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $room_key);
 
         header('Location: ' . 'room/' . $available_room['slug']);
         exit();
@@ -107,9 +106,10 @@ class Main extends CI_Controller {
     // Load messages
     public function load()
     {
-        // In dev, this replaces cron delete_old_users
+        // In dev, this replaces cron remove_inactive_users
         if (is_dev()) {
-            $this->delete_old_users();
+            $this->remove_inactive_users();
+            $this->remove_inactive_rooms();
         }
 
         // Set parameters
@@ -136,9 +136,10 @@ class Main extends CI_Controller {
 
         // Update user last load
         $this->main_model->update_user_last_load($user['id']);
+        $this->main_model->update_room_last_load($user['room_key']);
 
         // Get messages
-        $messages = $this->message_model->load_message_by_limit($room_key, $limit);
+        $messages = $this->main_model->load_message_by_limit($room_key, $limit);
 
         // Reverse array for ascending order (Could refactor into sql)
         $messages = array_reverse($messages);
@@ -172,7 +173,7 @@ class Main extends CI_Controller {
         $message = htmlspecialchars($this->input->post('message_input'));
 
         // Insert message
-        $result = $this->message_model->new_message($user['id'], $user['username'], $user['color'], $message, $user['room_key']);
+        $result = $this->main_model->new_message($user['id'], $user['username'], $user['color'], $message, $user['room_key']);
         return true;
     }
 
@@ -186,7 +187,7 @@ class Main extends CI_Controller {
         // Limit number of new messages in a timespan
         $message_spam_limit_amount = 8;
         $message_spam_limit_length = 60;
-        $recent_messages = $this->message_model->recent_messages($user['id'], $message_spam_limit_length);
+        $recent_messages = $this->main_model->recent_messages($user['id'], $message_spam_limit_length);
         if (!is_dev() && $recent_messages > $message_spam_limit_amount) {
             echo 'Your talking too much';
             return false;
@@ -228,24 +229,37 @@ class Main extends CI_Controller {
         }
         echo 'Running Cron - ';
 
-        $this->delete_old_users();
+        $this->remove_inactive_users();
+        $this->remove_inactive_rooms();
 
         echo 'End Cron - ';
     }
 
-    public function delete_old_users()
+    public function remove_inactive_users()
     {
-        $missing_wait_seconds = 1 * 60;
-        $missing_users = $this->main_model->users_missing($missing_wait_seconds);
+        $inactive_user_wait_seconds = 1 * 60;
+        $inactive_users = $this->main_model->inactive_users($inactive_user_wait_seconds);
 
-        foreach ($missing_users as $user) {
+        foreach ($inactive_users as $user) {
             echo 'User Being Deleted - ';
             echo '<pre>'; print_r($user); echo '</pre>';
             $this->main_model->remove_user_by_id($user['id']);
 
             // System Leave Message
             $message = $user['username'] . ' has left';
-            $result = $this->message_model->new_message($this->system_user_id, $this->system_leave_slug, '#000000', $message, $user['room_key']);
+            $result = $this->main_model->new_message($this->system_user_id, $this->system_leave_slug, '#000000', $message, $user['room_key']);
+        }
+    }
+
+    public function remove_inactive_rooms()
+    {
+        $inactive_room_wait_seconds = 1 * 60;
+        $inactive_rooms = $this->main_model->inactive_rooms($inactive_room_wait_seconds);
+
+        foreach ($inactive_rooms as $room) {
+            echo 'Room Being Deleted - ';
+            echo '<pre>'; print_r($room); echo '</pre>';
+            $this->main_model->remove_room_by_id($room['id']);
         }
     }
 
