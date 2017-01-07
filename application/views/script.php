@@ -93,11 +93,9 @@ function messages_load(inital_load) {
         }
         $.each(messages, function(i, message) {
           // Skip if we already have this message
-          console.log(message.id + ' ' + message.message + ' ' + current_message_id);
           if (parseInt(message.id) <= parseInt(current_message_id)) {
             return true;
           }
-          console.log(message.id + ' ' + message.message + ' ' + current_message_id);
           current_message_id = message.id;
           // System Messages
           if (parseInt(message.user_key) === <?php echo $this->system_user_id; ?>) {
@@ -107,7 +105,7 @@ function messages_load(inital_load) {
           // Process message
           var message_message = process_message(message.message);
           // Lighten color for text
-          var light_color = LightenDarkenColor(message.color, 66);
+          var light_color = lighten_darken_color(message.color, 66);
           // Create message html
           html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
         });
@@ -138,6 +136,8 @@ function convert_youtube(input) {
   if (pattern.test(input)) {
     var replacement = '<iframe width="420" height="345" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>';
     var input = input.replace(pattern, replacement);
+    // For start time, turn get param & into ?
+    var input = input.replace('&amp;t=', '?t=');
   }
   return input;
 }
@@ -202,7 +202,7 @@ function scroll_to_bottom() {
 }
 
 // http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
-function LightenDarkenColor(col,amt) {
+function lighten_darken_color(col,amt) {
     var usePound = false;
     if ( col[0] == "#" ) {
         col = col.slice(1);
@@ -220,4 +220,5 @@ function LightenDarkenColor(col,amt) {
     else if  ( g < 0 ) g = 0;
     return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 }
+
 </script>
