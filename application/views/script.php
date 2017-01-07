@@ -28,10 +28,6 @@ window.onload = function() {
   $('#message_input').focus();
 }
 
-// Tell server when user leaves, some extra code here for complete browser compatibility
-var onBeforeUnLoadEvent = false;
-window.onunload = window.onbeforeunload = leave_room;
-
 // New Message
 function submit_new_message(e) {
   // Message input
@@ -40,8 +36,7 @@ function submit_new_message(e) {
       url: "<?=base_url()?>new_message",
       type: "POST",
       data: { 
-        message_input: message_input,
-        room_key: room_key
+        message_input: message_input
       },
       cache: false,
       success: function(response) {
@@ -91,29 +86,29 @@ function messages_load(inital_load) {
         if (!messages) {
           return false;
         }
+        if (messages.error) {
+          alert(messages.error);
+          window.location = '<?=base_url()?>';
+          return false;
+        }
         $.each(messages, function(i, message) {
           // Skip if we already have this message
-          if (message.id <= current_message_id) {
+          console.log(message.id + ' ' + message.message + ' ' + current_message_id);
+          if (parseInt(message.id) <= parseInt(current_message_id)) {
             return true;
           }
+          console.log(message.id + ' ' + message.message + ' ' + current_message_id);
           current_message_id = message.id;
           // System Messages
           if (parseInt(message.user_key) === <?php echo $this->system_user_id; ?>) {
             html += '<div class="system_message ' + message.username + '">' + message.message + '</div>';
             return true;
           }
-          // Convert URLs to content
-          // Order important
-          var message_message = message.message;
-          message_message = convert_youtube(message_message);
-          message_message = convert_vimeo(message_message);
-          message_message = convert_twitch(message_message);
-          message_message = convert_vocaroo(message_message);
-          message_message = convert_video_url(message_message);
-          message_message = convert_image_url(message_message);
-          message_message = convert_general_url(message_message);
+          // Process message
+          var message_message = process_message(message.message);
           // Lighten color for text
           var light_color = LightenDarkenColor(message.color, 100);
+          // Create message html
           html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
         });
         // Append to div
@@ -124,6 +119,18 @@ function messages_load(inital_load) {
         }
       }
   });
+}
+
+function process_message(message) {
+  // Order important
+  message = convert_youtube(message);
+  message = convert_vimeo(message);
+  message = convert_twitch(message);
+  message = convert_vocaroo(message);
+  message = convert_video_url(message);
+  message = convert_image_url(message);
+  message = convert_general_url(message);
+  return message
 }
 
 function convert_youtube(input) {
@@ -188,26 +195,6 @@ function convert_general_url(input) {
     var input = input.replace(pattern, replacement);
   }
   return input;
-}
-
-function leave_room(e) {
-  $.ajax({
-      url: "<?=base_url()?>leave_room",
-      type: "POST",
-      data: { 
-        room_key: room_key
-      },
-      cache: false,
-      async: false,
-      success: function(response) {
-      }
-  });
-  // Ensure browser leave messages doesn't pop up
-  window.onbeforeunload = null;
-  e.preventDefault();
-  e = null;
-  e.returnValue = true;
-  return true;
 }
 
 function scroll_to_bottom() {

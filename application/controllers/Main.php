@@ -85,41 +85,13 @@ class Main extends CI_Controller {
         exit();
     }
 
-    public function leave_room()
-    {
-        // Authentication
-        $session_data = $this->session->userdata('user_session');
-        if (!$session_data) {
-            return false;
-        }
-        // Validation
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('room_key', 'Room Key', 'trim|required|integer|max_length[10]');
-
-        if ($this->form_validation->run() == FALSE) {
-            return false;
-        }
-        $user_id = $session_data['id'];
-        $user = $this->main_model->get_user_by_id($user_id);
-
-        $this->main_model->remove_user_by_id($user_id);
-
-        // Set variables
-        $room_key = $this->input->post('room_key');
-        $username = $user['username'];
-
-        // System Leave Message
-        $message = $username . ' has left';
-        $result = $this->message_model->new_message($this->system_user_id, $this->system_leave_slug, '#000000', $message, $room_key);
-
-    }
-
     public function room($slug)
     {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
-        $session_data = $this->session->userdata('user_session');
-        if ($session_data['room_key'] != $data['room']['id']) {
+        $user = $this->get_user_by_session();
+        if ($user['room_key'] != $data['room']['id']) {
             header('Location: ' . base_url());
+            return false;
         }
         $data['load_interval'] = 1 * 1000;
         if (is_dev()) {
@@ -135,6 +107,11 @@ class Main extends CI_Controller {
     // Load messages
     public function load()
     {
+        // In dev, this replaces cron delete_old_users
+        if (is_dev()) {
+            $this->delete_old_users();
+        }
+
         // Set parameters
         $room_key = $this->input->post('room_key');
         $inital_load = $this->input->post('inital_load');
@@ -144,6 +121,21 @@ class Main extends CI_Controller {
         else {
             $limit = 5;
         }
+
+        $user = $this->get_user_by_session();
+        if (!$user) {
+            $error_message['error'] = 'Your session has expired';
+            echo json_encode($error_message);
+            return false;
+        }
+        if ($user['room_key'] != $room_key) {
+            $error_message['error'] = 'This is not your room';
+            echo json_encode($error_message);
+            return false;
+        }
+
+        // Update user last load
+        $this->main_model->update_user_last_load($user['id']);
 
         // Get messages
         $messages = $this->message_model->load_message_by_limit($room_key, $limit);
@@ -157,49 +149,44 @@ class Main extends CI_Controller {
     // For new messages
     public function new_message()
     {
-        // Authentication
-        $session_data = $this->session->userdata('user_session');
-        if (!$session_data || !isset($session_data['username'])) {
+        $user = $this->get_user_by_session();
+        if (!$user) {
             echo 'Your session has expired';
             return false;
         }
         // Validation
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('room_key', 'Room Key', 'trim|required|integer|max_length[10]|callback_new_message_validation');
         $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[1000]');
 
         if ($this->form_validation->run() == FALSE) {
             echo validation_errors();
             return false;
         }
-        $user_id = $session_data['id'];
-        $user = $this->main_model->get_user_by_id($user_id);
+        $user = $this->main_model->get_user_by_id($user['id']);
+        if (empty($user)) {
+            echo 'Your session has expired';
+            return false;
+        }
 
         // Set variables
-        $room_key = $this->input->post('room_key');
-        $username = $user['username'];
-        $color = $user['color'];
         $message = htmlspecialchars($this->input->post('message_input'));
 
         // Insert message
-        $result = $this->message_model->new_message($user_id, $username, $color, $message, $room_key);
+        $result = $this->message_model->new_message($user['id'], $user['username'], $user['color'], $message, $user['room_key']);
         return true;
     }
 
     // Message Callback
     public function new_message_validation()
     {
-        // Authentication
-        if ($this->session->userdata('user_session')) {
-            $session_data = $this->session->userdata('user_session');
-            $user_id = $data['user_id'] = $session_data['id'];
-        } else {
+        $user = $this->get_user_by_session();
+        if (!$user) {
             return false;
         }
         // Limit number of new messages in a timespan
         $message_spam_limit_amount = 8;
         $message_spam_limit_length = 60;
-        $recent_messages = $this->message_model->recent_messages($user_id, $message_spam_limit_length);
+        $recent_messages = $this->message_model->recent_messages($user['id'], $message_spam_limit_length);
         if (!is_dev() && $recent_messages > $message_spam_limit_amount) {
             echo 'Your talking too much';
             return false;
@@ -225,5 +212,53 @@ class Main extends CI_Controller {
         $this->load->view('template/header', $data);
         $this->load->view('error', $data);
         $this->load->view('template/footer', $data);
+    }
+
+    public function cron($cron_token = false)
+    {
+        // Use hash equals function to prevent timing attack
+        if (!$cron_token) {
+            $this->load->view('errors/page_not_found');
+            return false;
+        }
+        $token = '1234';
+        if ( !hash_equals($token, $cron_token) ) {
+            $this->load->view('errors/page_not_found');
+            return false;
+        }
+        echo 'Running Cron - ';
+
+        $this->delete_old_users();
+
+        echo 'End Cron - ';
+    }
+
+    public function delete_old_users()
+    {
+        $missing_wait_seconds = 1 * 60;
+        $missing_users = $this->main_model->users_missing($missing_wait_seconds);
+
+        foreach ($missing_users as $user) {
+            echo 'User Being Deleted - ';
+            echo '<pre>'; print_r($user); echo '</pre>';
+            $this->main_model->remove_user_by_id($user['id']);
+
+            // System Leave Message
+            $message = $user['username'] . ' has left';
+            $result = $this->message_model->new_message($this->system_user_id, $this->system_leave_slug, '#000000', $message, $user['room_key']);
+        }
+    }
+
+    function get_user_by_session()
+    {
+        $user_session = $this->session->userdata('user_session');
+        if (!$user_session) {
+            return false;
+        }
+        $user = $this->main_model->get_user_by_id($user_session['id']);
+        if (empty($user)) {
+            return false;
+        }
+        return $user;
     }
 }

@@ -3,7 +3,7 @@
 ==========================================================================================
 
 High Priority
-    Allow join/rejoin room by slug
+    Excessive empty rooms potential problem
     Figure out content vs chat so you can watch and chat at the same time
 
 Low Priority

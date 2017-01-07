@@ -7,11 +7,11 @@ Class main_model extends CI_Model
 {
     function select_row($table, $id)
     {
-       $this->db->select('*');
-       $this->db->from($table);
-       $this->db->where('id', $id);
-       $query = $this->db->get();
-       return $query->result_array();
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     function insert_row($table, $column)
@@ -41,12 +41,12 @@ Class main_model extends CI_Model
 
     function get_user_by_id($id)
     {
-       $this->db->select('*');
-       $this->db->from('user');
-       $this->db->where('id', $id);
-       $query = $this->db->get();
-       $result = $query->result_array();
-       return isset($result[0]) ? $result[0] : false;
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return isset($result[0]) ? $result[0] : false;
     }
 
     function remove_user_by_id($user_id)
@@ -57,22 +57,22 @@ Class main_model extends CI_Model
 
     function get_room_by_id($id)
     {
-       $this->db->select('*');
-       $this->db->from('room');
-       $this->db->where('id', $id);
-       $query = $this->db->get();
-       $result = $query->result_array();
-       return isset($result[0]) ? $result[0] : false;
+        $this->db->select('*');
+        $this->db->from('room');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return isset($result[0]) ? $result[0] : false;
     }
 
     function get_room_by_slug($slug)
     {
-       $this->db->select('*');
-       $this->db->from('room');
-       $this->db->where('slug', $slug);
-       $query = $this->db->get();
-       $result = $query->result_array();
-       return isset($result[0]) ? $result[0] : false;
+        $this->db->select('*');
+        $this->db->from('room');
+        $this->db->where('slug', $slug);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return isset($result[0]) ? $result[0] : false;
     }
 
     function get_available_room($room_capacity)
@@ -114,6 +114,26 @@ Class main_model extends CI_Model
         );
         $this->db->insert('user', $data);
         return $this->db->insert_id();
+    }
+
+    function update_user_last_load($user_id)
+    {
+        $data = array(
+            'last_load' => date('Y-m-d H:i:s', time()),
+            'modified' => date('Y-m-d H:i:s', time())
+        );
+        $this->db->where('id', $user_id);
+        $this->db->update('user', $data);
+    }
+
+    function users_missing($missing_wait_seconds)
+    {
+        $query = $this->db->query("
+            SELECT *
+            FROM `user`
+            WHERE `last_load` < (now() - INTERVAL " . $missing_wait_seconds . " SECOND);
+        ");
+        return $query->result_array();
     }
 }
 ?>
