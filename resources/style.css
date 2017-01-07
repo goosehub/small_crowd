@@ -14,7 +14,7 @@ body {
 }
 
 /* Content */
-#message_outer_parent {
+#message_content_parent {
   /* Fix chat to bottom */
   position: fixed;
   max-height: calc(100vh - 4em);

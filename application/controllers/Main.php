@@ -6,6 +6,7 @@ class Main extends CI_Controller {
     public $room_capacity;
     public $system_user_id;
     public $system_welcome_slug;
+    public $inactive_wait_time;
 
     function __construct()
     {
@@ -16,6 +17,7 @@ class Main extends CI_Controller {
         $this->system_user_id = 0;
         $this->system_welcome_slug = 'welcome';
         $this->system_leave_slug = 'leave';
+        $this->inactive_wait_time = 15;
     }
 
     public function start()
@@ -237,8 +239,7 @@ class Main extends CI_Controller {
 
     public function archive_inactive_users()
     {
-        $inactive_user_wait_seconds = 1 * 60;
-        $inactive_users = $this->main_model->inactive_users($inactive_user_wait_seconds);
+        $inactive_users = $this->main_model->inactive_users($this->inactive_wait_time);
 
         foreach ($inactive_users as $user) {
             echo 'User Being archived - ';
@@ -253,8 +254,7 @@ class Main extends CI_Controller {
 
     public function archive_inactive_rooms()
     {
-        $inactive_room_wait_seconds = 1 * 60;
-        $inactive_rooms = $this->main_model->inactive_rooms($inactive_room_wait_seconds);
+        $inactive_rooms = $this->main_model->inactive_rooms($this->inactive_wait_time);
 
         foreach ($inactive_rooms as $room) {
             echo 'Room Being archived - ';

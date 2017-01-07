@@ -165,13 +165,13 @@ Class main_model extends CI_Model
         $this->db->update('room', $data);
     }
 
-    function inactive_users($inactive_user_wait_seconds)
+    function inactive_users($inactive_wait_time)
     {
         $query = $this->db->query("
             SELECT *
             FROM `user`
             WHERE `archived` = 0
-            AND `last_load` < (now() - INTERVAL " . $inactive_user_wait_seconds . " SECOND);
+            AND `last_load` < (now() - INTERVAL " . $inactive_wait_time . " SECOND);
         ");
         return $query->result_array();
     }
@@ -185,13 +185,13 @@ Class main_model extends CI_Model
         $this->db->update('user', $data);
     }
 
-    function inactive_rooms($inactive_room_wait_seconds)
+    function inactive_rooms($inactive_wait_time)
     {
         $query = $this->db->query("
             SELECT *
             FROM `room`
             WHERE `archived` = 0
-            AND `last_load` < (now() - INTERVAL " . $inactive_room_wait_seconds . " SECOND);
+            AND `last_load` < (now() - INTERVAL " . $inactive_wait_time . " SECOND);
         ");
         return $query->result_array();
     }

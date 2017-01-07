@@ -3,7 +3,6 @@
 ==========================================================================================
 
 High Priority
-    Youtube with time
     Figure out content vs chat so you can watch and chat at the same time
 
 Low Priority
