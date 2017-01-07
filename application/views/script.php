@@ -28,14 +28,16 @@ window.onload = function() {
   $('#message_input').focus();
 }
 
-window.onbeforeunload = leave_room;
+// Tell server when user leaves, some extra code here for complete browser compatibility
+var onBeforeUnLoadEvent = false;
+window.onunload = window.onbeforeunload = leave_room;
 
 // New Message
 function submit_new_message(e) {
   // Message input
   var message_input = $("#message_input").val();
   $.ajax({
-      url: "<?=base_url()?>message/new_message",
+      url: "<?=base_url()?>new_message",
       type: "POST",
       data: { 
         message_input: message_input,
@@ -66,7 +68,7 @@ function submit_new_message(e) {
 // Message Load
 function messages_load(inital_load) {
   $.ajax({
-      url: "<?=base_url()?>message/load",
+      url: "<?=base_url()?>load",
       type: "POST",
       data: {
         room_key: room_key,
@@ -200,7 +202,7 @@ function leave_room(e) {
       success: function(response) {
       }
   });
-  // Ensure browser leave messages don't pop up
+  // Ensure browser leave messages doesn't pop up
   window.onbeforeunload = null;
   e.preventDefault();
   e = null;

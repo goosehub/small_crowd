@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$route['message/load'] = "main/load";
-$route['message/new_message'] = "main/new_message";
+$route['load'] = "main/load";
+$route['new_message'] = "main/new_message";
 
 $route['default_controller'] = 'main/start';
 $route['join_room'] = 'main/join_room';
