@@ -1,7 +1,7 @@
 <!-- Main Script -->
 <script>
 var room_key = <?php echo $room['id']; ?>;
-var current_message = 0;
+var current_message_id = 0;
 var at_bottom = true;
 
 // Initial Load
@@ -89,7 +89,13 @@ function messages_load(inital_load) {
         }
         $.each(messages, function(i, message) {
           // Skip if we already have this message
-          if (message.id <= current_message) {
+          if (message.id <= current_message_id) {
+            return true;
+          }
+          current_message_id = message.id;
+          // System Messages
+          if (parseInt(message.user_key) === <?php echo $this->system_user_id; ?>) {
+            html += '<div class="system_message ' + message.username + '">' + message.message + '</div>';
             return true;
           }
           // Convert URLs to content
@@ -105,7 +111,6 @@ function messages_load(inital_load) {
           // Lighten color for text
           var light_color = LightenDarkenColor(message.color, 100);
           html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
-          current_message = message.id;
         });
         // Append to div
         $("#message_content_parent").append(html);

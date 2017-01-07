@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Main extends CI_Controller {
 
     public $room_capacity;
+    public $system_user_id;
+    public $system_welcome_slug;
 
     function __construct()
     {
@@ -12,6 +14,8 @@ class Main extends CI_Controller {
         $this->load->model('main_model', '', TRUE);
         $this->load->model('message_model', '', TRUE);
         $this->room_capacity = 4;
+        $this->system_user_id = 0;
+        $this->system_welcome_slug = 'welcome';
     }
 
     public function start()
@@ -44,8 +48,8 @@ class Main extends CI_Controller {
             $username = 'Someone';
         }
         $location = $this->input->post('location');
-        if (!$username) {
-            $username = 'Somewhere';
+        if (!$location) {
+            $location = 'Somewhere';
         }
         $color = $this->input->post('color');
         $ip = $_SERVER['REMOTE_ADDR'];
@@ -70,6 +74,10 @@ class Main extends CI_Controller {
         );
         $this->session->set_userdata('logged_in', $sess_array);
 
+        // System Welcome Message
+        $message = 'Welcome ' . $username . ' from ' . $location;
+        $result = $this->message_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $available_room['id']);
+
         header('Location: ' . 'room/' . $available_room['slug']);
         exit();
     }
@@ -79,7 +87,7 @@ class Main extends CI_Controller {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
         $data['load_interval'] = 1 * 1000;
         if (is_dev()) {
-            $data['load_interval'] = 3 * 1000;
+            $data['load_interval'] = 10 * 1000;
         }
         $data['page_title'] = site_name();
         $this->load->view('template/header', $data);
@@ -113,19 +121,19 @@ class Main extends CI_Controller {
     // For new messages
     public function new_message()
     {
+        // Authentication
+        if (!$this->session->userdata('logged_in')) {
+            echo 'Your session has expired';
+            return false;
+        }
         // Validation
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('room_key', 'World Key', 'trim|required|integer|max_length[10]|callback_new_message_validation');
+        $this->form_validation->set_rules('room_key', 'Room Key', 'trim|required|integer|max_length[10]|callback_new_message_validation');
         $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[1000]');
         // $this->form_validation->set_rules('token', 'Token', 'trim|max_length[1000]');
 
         if ($this->form_validation->run() == FALSE) {
             echo validation_errors();
-            return false;
-        }
-        // Authentication
-        if (!$this->session->userdata('logged_in')) {
-            echo 'Your session has expired';
             return false;
         }
         $session_data = $this->session->userdata('logged_in');

@@ -35,6 +35,9 @@ body {
 .message_username:after {
   content: ':';
 }
+.system_message {
+  text-align: center;
+}
 
 /* Media */
 .share_video {

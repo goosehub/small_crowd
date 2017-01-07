@@ -5,10 +5,10 @@
 Rename to small talk?
 
 High Priority
-    Message when users join
     Detect users leaving
     Allow joining full rooms by URL, but not matchmaking
     Figure out content vs chat so you can watch and chat at the same time
+    Allow videos to stick
 
 Low Priority
     Security audit
@@ -17,6 +17,7 @@ Low Priority
     Consider regex on submit instead
     Image Upload
     Video Upload
+    Examine overgrown pages
 
 No Priority
 
