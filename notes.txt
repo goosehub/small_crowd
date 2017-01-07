@@ -3,10 +3,11 @@
 ==========================================================================================
 
 High Priority
+    Youtube with time
     Figure out content vs chat so you can watch and chat at the same time
-    Flag user and room instead of deleting
 
 Low Priority
+    Room not found message
     Allow joining full rooms by URL, but not matchmaking
     Security audit
     XSS audit

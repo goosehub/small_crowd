@@ -106,10 +106,10 @@ class Main extends CI_Controller {
     // Load messages
     public function load()
     {
-        // In dev, this replaces cron remove_inactive_users
+        // In dev, this replaces cron archive_inactive_users
         if (is_dev()) {
-            $this->remove_inactive_users();
-            $this->remove_inactive_rooms();
+            $this->archive_inactive_users();
+            $this->archive_inactive_rooms();
         }
 
         // Set parameters
@@ -229,21 +229,21 @@ class Main extends CI_Controller {
         }
         echo 'Running Cron - ';
 
-        $this->remove_inactive_users();
-        $this->remove_inactive_rooms();
+        $this->archive_inactive_users();
+        $this->archive_inactive_rooms();
 
         echo 'End Cron - ';
     }
 
-    public function remove_inactive_users()
+    public function archive_inactive_users()
     {
         $inactive_user_wait_seconds = 1 * 60;
         $inactive_users = $this->main_model->inactive_users($inactive_user_wait_seconds);
 
         foreach ($inactive_users as $user) {
-            echo 'User Being Deleted - ';
+            echo 'User Being archived - ';
             echo '<pre>'; print_r($user); echo '</pre>';
-            $this->main_model->remove_user_by_id($user['id']);
+            $this->main_model->archive_user_by_id($user['id']);
 
             // System Leave Message
             $message = $user['username'] . ' has left';
@@ -251,15 +251,15 @@ class Main extends CI_Controller {
         }
     }
 
-    public function remove_inactive_rooms()
+    public function archive_inactive_rooms()
     {
         $inactive_room_wait_seconds = 1 * 60;
         $inactive_rooms = $this->main_model->inactive_rooms($inactive_room_wait_seconds);
 
         foreach ($inactive_rooms as $room) {
-            echo 'Room Being Deleted - ';
+            echo 'Room Being archived - ';
             echo '<pre>'; print_r($room); echo '</pre>';
-            $this->main_model->remove_room_by_id($room['id']);
+            $this->main_model->archive_room_by_id($room['id']);
         }
     }
 

@@ -68,6 +68,7 @@ Class main_model extends CI_Model
             SELECT COUNT(id) as recent_messages
             FROM `message`
             WHERE `user_key` = '" . $user_key . "'
+            AND `archived` = 0
             AND `timestamp` > (now() - INTERVAL " . $message_limit_length . " SECOND);
         ");
         $result = $query->result_array();
@@ -112,6 +113,8 @@ Class main_model extends CI_Model
             FROM room
             LEFT JOIN user
                 ON room.id = user.room_key
+            WHERE room.archived = 0
+            AND user.archived = 0
             GROUP BY room.id
             HAVING COUNT(user.id) < " . $room_capacity . "
             ORDER BY RAND();"
@@ -167,15 +170,19 @@ Class main_model extends CI_Model
         $query = $this->db->query("
             SELECT *
             FROM `user`
-            WHERE `last_load` < (now() - INTERVAL " . $inactive_user_wait_seconds . " SECOND);
+            WHERE `archived` = 0
+            AND `last_load` < (now() - INTERVAL " . $inactive_user_wait_seconds . " SECOND);
         ");
         return $query->result_array();
     }
 
-    function remove_user_by_id($user_id)
+    function archive_user_by_id($user_id)
     {
+        $data = array(
+            'archived' => 1,
+        );
         $this->db->where('id', $user_id);
-        $this->db->delete('user');
+        $this->db->update('user', $data);
     }
 
     function inactive_rooms($inactive_room_wait_seconds)
@@ -183,15 +190,19 @@ Class main_model extends CI_Model
         $query = $this->db->query("
             SELECT *
             FROM `room`
-            WHERE `last_load` < (now() - INTERVAL " . $inactive_room_wait_seconds . " SECOND);
+            WHERE `archived` = 0
+            AND `last_load` < (now() - INTERVAL " . $inactive_room_wait_seconds . " SECOND);
         ");
         return $query->result_array();
     }
 
-    function remove_room_by_id($room_id)
+    function archive_room_by_id($room_id)
     {
+        $data = array(
+            'archived' => 1,
+        );
         $this->db->where('id', $room_id);
-        $this->db->delete('room');
+        $this->db->update('room', $data);
     }
 }
 ?>

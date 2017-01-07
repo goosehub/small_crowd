@@ -107,7 +107,7 @@ function messages_load(inital_load) {
           // Process message
           var message_message = process_message(message.message);
           // Lighten color for text
-          var light_color = LightenDarkenColor(message.color, 100);
+          var light_color = LightenDarkenColor(message.color, 66);
           // Create message html
           html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
         });
