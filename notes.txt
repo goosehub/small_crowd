@@ -2,15 +2,12 @@
     Notes
 ==========================================================================================
 
-Rename to small talk?
-
 High Priority
-    Detect users leaving
-    Allow joining full rooms by URL, but not matchmaking
+    Allow join/rejoin room by slug
     Figure out content vs chat so you can watch and chat at the same time
-    Allow videos to stick
 
 Low Priority
+    Allow joining full rooms by URL, but not matchmaking
     Security audit
     XSS audit
     Performance audit

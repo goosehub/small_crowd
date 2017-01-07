@@ -21,12 +21,14 @@ $(window).scroll(function() {
   }
 });
 
-window.onload = function () {
+window.onload = function() {
   // Scroll to bottom
   scroll_to_bottom();
   // Focus on chat
   $('#message_input').focus();
 }
+
+window.onbeforeunload = leave_room;
 
 // New Message
 function submit_new_message(e) {
@@ -186,8 +188,28 @@ function convert_general_url(input) {
   return input;
 }
 
+function leave_room(e) {
+  $.ajax({
+      url: "<?=base_url()?>leave_room",
+      type: "POST",
+      data: { 
+        room_key: room_key
+      },
+      cache: false,
+      async: false,
+      success: function(response) {
+      }
+  });
+  // Ensure browser leave messages don't pop up
+  window.onbeforeunload = null;
+  e.preventDefault();
+  e = null;
+  e.returnValue = true;
+  return true;
+}
+
 function scroll_to_bottom() {
-  window.scrollTo(0,document.body.scrollHeight);
+  $("#message_outer_parent").scrollTop($("#message_outer_parent")[0].scrollHeight);
 }
 
 // http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors

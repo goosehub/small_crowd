@@ -16,6 +16,7 @@ class Main extends CI_Controller {
         $this->room_capacity = 4;
         $this->system_user_id = 0;
         $this->system_welcome_slug = 'welcome';
+        $this->system_leave_slug = 'leave';
     }
 
     public function start()
@@ -63,31 +64,66 @@ class Main extends CI_Controller {
             $available_room_id = $this->main_model->create_room($slug);
             $available_room = $this->main_model->get_room_by_id($available_room_id);
         }
+        $room_key = $available_room['id'];
 
         // User added to room
         $user_id = $this->main_model->create_user($available_room['id'], $username, $location, $color, $ip);
         
         $sess_array = array(
             'id' => $user_id,
+            'room_key' => $room_key,
             'username' => $username,
             'color' => $color
         );
-        $this->session->set_userdata('logged_in', $sess_array);
+        $this->session->set_userdata('user_session', $sess_array);
 
         // System Welcome Message
         $message = 'Welcome ' . $username . ' from ' . $location;
-        $result = $this->message_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $available_room['id']);
+        $result = $this->message_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $room_key);
 
         header('Location: ' . 'room/' . $available_room['slug']);
         exit();
     }
 
+    public function leave_room()
+    {
+        // Authentication
+        $session_data = $this->session->userdata('user_session');
+        if (!$session_data) {
+            return false;
+        }
+        // Validation
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('room_key', 'Room Key', 'trim|required|integer|max_length[10]');
+
+        if ($this->form_validation->run() == FALSE) {
+            return false;
+        }
+        $user_id = $session_data['id'];
+        $user = $this->main_model->get_user_by_id($user_id);
+
+        $this->main_model->remove_user_by_id($user_id);
+
+        // Set variables
+        $room_key = $this->input->post('room_key');
+        $username = $user['username'];
+
+        // System Leave Message
+        $message = $username . ' has left';
+        $result = $this->message_model->new_message($this->system_user_id, $this->system_leave_slug, '#000000', $message, $room_key);
+
+    }
+
     public function room($slug)
     {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
+        $session_data = $this->session->userdata('user_session');
+        if ($session_data['room_key'] != $data['room']['id']) {
+            header('Location: ' . base_url());
+        }
         $data['load_interval'] = 1 * 1000;
         if (is_dev()) {
-            $data['load_interval'] = 10 * 1000;
+            $data['load_interval'] = 4 * 1000;
         }
         $data['page_title'] = site_name();
         $this->load->view('template/header', $data);
@@ -122,7 +158,8 @@ class Main extends CI_Controller {
     public function new_message()
     {
         // Authentication
-        if (!$this->session->userdata('logged_in')) {
+        $session_data = $this->session->userdata('user_session');
+        if (!$session_data || !isset($session_data['username'])) {
             echo 'Your session has expired';
             return false;
         }
@@ -130,20 +167,18 @@ class Main extends CI_Controller {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('room_key', 'Room Key', 'trim|required|integer|max_length[10]|callback_new_message_validation');
         $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[1000]');
-        // $this->form_validation->set_rules('token', 'Token', 'trim|max_length[1000]');
 
         if ($this->form_validation->run() == FALSE) {
             echo validation_errors();
             return false;
         }
-        $session_data = $this->session->userdata('logged_in');
-        $user_id = $data['user_id'] = $session_data['id'];
-        $data['user'] = $this->main_model->get_user_by_id($user_id);
+        $user_id = $session_data['id'];
+        $user = $this->main_model->get_user_by_id($user_id);
 
         // Set variables
         $room_key = $this->input->post('room_key');
-        $username = $data['user']['username'];
-        $color = $data['user']['color'];
+        $username = $user['username'];
+        $color = $user['color'];
         $message = htmlspecialchars($this->input->post('message_input'));
 
         // Insert message
@@ -155,8 +190,8 @@ class Main extends CI_Controller {
     public function new_message_validation()
     {
         // Authentication
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
+        if ($this->session->userdata('user_session')) {
+            $session_data = $this->session->userdata('user_session');
             $user_id = $data['user_id'] = $session_data['id'];
         } else {
             return false;

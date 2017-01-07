@@ -49,6 +49,12 @@ Class main_model extends CI_Model
        return isset($result[0]) ? $result[0] : false;
     }
 
+    function remove_user_by_id($user_id)
+    {
+        $this->db->where('id', $user_id);
+        $this->db->delete('user');
+    }
+
     function get_room_by_id($id)
     {
        $this->db->select('*');
