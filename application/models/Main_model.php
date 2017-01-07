@@ -27,7 +27,6 @@ Class main_model extends CI_Model
     {
         $data = array(
             'column' => $column,
-            'modified' => date('Y-m-d H:i:s', time())
         );
         $this->db->where('id', $id);
         $this->db->update($table, $data);
@@ -50,7 +49,7 @@ Class main_model extends CI_Model
         $result = $query->result_array();
         return $result;
     }
-    
+
     function new_message($user_key, $username, $color, $message, $room_key)
     {
         $data = array(
@@ -114,7 +113,8 @@ Class main_model extends CI_Model
             LEFT JOIN user
                 ON room.id = user.room_key
             GROUP BY room.id
-            HAVING COUNT(user.id) < " . $room_capacity . ";"
+            HAVING COUNT(user.id) < " . $room_capacity . "
+            ORDER BY RAND();"
             );
         $result = $query->result_array();
         return isset($result[0]) ? $result[0] : false;
@@ -125,7 +125,6 @@ Class main_model extends CI_Model
         $data = array(
             'slug' => $slug,
             'last_load' => date('Y-m-d H:i:s', time()),
-            'modified' => date('Y-m-d H:i:s', time()),
         );
         $this->db->insert('room', $data);
         return $this->db->insert_id();
@@ -140,7 +139,6 @@ Class main_model extends CI_Model
             'color' => $color,
             'ip' => $ip,
             'last_load' => date('Y-m-d H:i:s', time()),
-            'modified' => date('Y-m-d H:i:s', time()),
         );
         $this->db->insert('user', $data);
         return $this->db->insert_id();
@@ -150,7 +148,6 @@ Class main_model extends CI_Model
     {
         $data = array(
             'last_load' => date('Y-m-d H:i:s', time()),
-            'modified' => date('Y-m-d H:i:s', time())
         );
         $this->db->where('id', $user_id);
         $this->db->update('user', $data);
@@ -160,7 +157,6 @@ Class main_model extends CI_Model
     {
         $data = array(
             'last_load' => date('Y-m-d H:i:s', time()),
-            'modified' => date('Y-m-d H:i:s', time())
         );
         $this->db->where('id', $room_key);
         $this->db->update('room', $data);

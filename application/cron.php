@@ -8,9 +8,14 @@ else {
     $base_url = 'http://small_crowd.xyz/';
 }
 
-// Token
-// This variable to be changed in live version
-$cron_token = '1234';
+// Cron Token
+$cron_token = file_get_contents('auth.php');    
+if (is_dev()) {
+    $cron_token = '1234';
+}
+else {
+    $cron_token = file_get_contents('auth.php');    
+}
 
 // Taxes
 $route = 'cron/';
