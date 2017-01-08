@@ -27,6 +27,8 @@ body {
 }
 .message_username, .message_icon {
   font-size: 1.2em;
+  display: inline-block;
+  vertical-align: top;
 }
 .message_username {
   font-weight: bold;
@@ -39,17 +41,13 @@ body {
   text-align: center;
 }
 
-/* Media */
-.share_video {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  min-height: 33vh;
+/* Content */
+.message_content {
+  max-width: 100vw;
+  max-height: 100vh;
 }
-.share_image {
-  max-width: 100%;
-  max-height: 100%;
+.message_image {
+  max-height: 33vh;
 }
 
 /* Inputs */

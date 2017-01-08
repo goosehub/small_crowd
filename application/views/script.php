@@ -112,7 +112,7 @@ function messages_load(inital_load) {
         // Append to div
         $("#message_content_parent").append(html);
         // Stay at bottom if at bottom
-        if (at_bottom) {
+        if (at_bottom || inital_load) {
           scroll_to_bottom();
         }
       }
@@ -134,7 +134,7 @@ function process_message(message) {
 function convert_youtube(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(\S+)/g;
   if (pattern.test(input)) {
-    var replacement = '<iframe width="420" height="345" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>';
+    var replacement = '<iframe width="420" height="345" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen class="message_youtube message_content"></iframe>';
     var input = input.replace(pattern, replacement);
     // For start time, turn get param & into ?
     var input = input.replace('&amp;t=', '?t=');
@@ -145,7 +145,7 @@ function convert_youtube(input) {
 function convert_vimeo(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vimeo\.com)\/?(\S+)/g;
   if (pattern.test(input)) {
-   var replacement = '<iframe width="420" height="345" src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+   var replacement = '<iframe width="420" height="345" src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="message_vimeo message_content"></iframe>';
    var input = input.replace(pattern, replacement);
   }
   return input;
@@ -154,7 +154,7 @@ function convert_vimeo(input) {
 function convert_twitch(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:twitch\.tv)\/?(\S+)/g;
   if (pattern.test(input)) {
-   var replacement = '<iframe src="https://player.twitch.tv/?channel=$1&!autoplay" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>';
+   var replacement = '<iframe src="https://player.twitch.tv/?channel=$1&!autoplay" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620" class="message_twitch message_content"></iframe>';
    var input = input.replace(pattern, replacement);
   }
   return input;
@@ -163,7 +163,7 @@ function convert_twitch(input) {
 function convert_vocaroo(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vocaroo\.com\/i)\/?(\S+)/g;
   if (pattern.test(input)) {
-   var replacement = '<object width="148" height="44"><param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0"></param><param name="wmode" value="transparent"></param><embed src="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></embed></object>';
+   var replacement = '<object width="148" height="44" class="message_vocaroo message_content"><param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0"></param><param name="wmode" value="transparent"></param><embed src="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></embed></object>';
    var input = input.replace(pattern, replacement);
   }
   return input;
@@ -172,7 +172,7 @@ function convert_vocaroo(input) {
 function convert_video_url(input) {
   var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:webm|mp4|ogv))/gi;
   if (pattern.test(input)) {
-    var replacement = '<video controls="" loop="" controls src="$1" style="max-width: 960px; max-height: 676px;"></video>';
+    var replacement = '<video controls="" loop="" controls src="$1" style="max-width: 960px; max-height: 676px;" class="message_video message_content"></video>';
     var input = input.replace(pattern, replacement);
   }
   return input;
@@ -181,7 +181,7 @@ function convert_video_url(input) {
 function convert_image_url(input) {
   var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png))/gi;
   if (pattern.test(input)) {
-    var replacement = '<a href="$1" target="_blank"><img class="sml" src="$1" /></a><br />';
+    var replacement = '<a href="$1" target="_blank" class="message_image_link message_content"><img class="message_image message_content" src="$1"/></a><br />';
     var input = input.replace(pattern, replacement);
   }
   return input;
@@ -191,14 +191,14 @@ function convert_general_url(input) {
   // Ignore " to not conflict with other converts
   var pattern = /(?!.*")([-a-zA-Z0-9@:%_\+.~#?&//=;]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=;]*))/gi;
   if (pattern.test(input)) {
-    var replacement = '<a href="$1" target="_blank">$1</a>';
+    var replacement = '<a href="$1" target="_blank" class="message_link message_content">$1</a>';
     var input = input.replace(pattern, replacement);
   }
   return input;
 }
 
 function scroll_to_bottom() {
-  $("#message_outer_parent").scrollTop($("#message_outer_parent")[0].scrollHeight);
+  $("#message_content_parent").scrollTop($("#message_content_parent")[0].scrollHeight);
 }
 
 // http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
