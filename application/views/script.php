@@ -14,16 +14,15 @@ setInterval(function(){
 }, load_interval);
 
 // Detect if user is at bottom
-$(window).scroll(function() {
+var text_to_bottom_css = true;
+$('#message_content_parent').scroll(function() {
   at_bottom = false;
-  if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+  if ($('#message_content_parent').prop('scrollHeight') - $('#message_content_parent').scrollTop() <= Math.ceil($('#message_content_parent').height())) {
     at_bottom = true;
   }
 });
 
 window.onload = function() {
-  // Scroll to bottom
-  scroll_to_bottom();
   // Focus on chat
   $('#message_input').focus();
 }
