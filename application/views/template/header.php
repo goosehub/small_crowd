@@ -25,7 +25,10 @@
     <!-- jQuery -->
     <script src="<?=base_url()?>resources/jquery/jquery-3.1.1.min.js"></script>
 
-    <!-- jQuery -->
+    <!-- jQuery Draggable -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Random Color -->
     <script src="<?=base_url()?>resources/randomColor/randomColor.js"></script>
     
     <!-- Bootstrap -->
