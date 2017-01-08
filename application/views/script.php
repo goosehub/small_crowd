@@ -28,10 +28,6 @@ window.onload = function() {
   $('#message_input').focus();
 }
 
-$(function() {
-  $(".draggable").draggable();
-});
-
 // New Message
 function submit_new_message(e) {
   // Message input
@@ -111,12 +107,10 @@ function messages_load(inital_load) {
           // Lighten color for text
           var light_color = lighten_darken_color(message.color, 66);
           // Create message html
-          html += '<div class="message_parent draggable"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
+          html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
         });
         // Append to div
         $("#message_content_parent").append(html);
-        // Retrigger draggable for dynamic elements
-        $('.draggable').draggable();
         // Stay at bottom if at bottom
         if (at_bottom) {
           scroll_to_bottom();
