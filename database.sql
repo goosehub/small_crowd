@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `username` varchar(64) NOT NULL,
   `color` varchar(8) NOT NULL,
   `message` text NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=112 ;
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   `slug` varchar(255) NOT NULL,
   `archived` int(1) NOT NULL,
   `last_load` timestamp NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `IP` varchar(100) NOT NULL,
   `archived` int(1) NOT NULL,
   `last_load` timestamp NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 

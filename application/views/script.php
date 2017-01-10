@@ -27,7 +27,7 @@ window.onload = function() {
   $('#message_input').focus();
 }
 
-$(document).on('click', '.message_pin', function(){
+$(document).on('click', '.message_pin', function(event){
   pin_action(event);
 });
 
@@ -110,7 +110,7 @@ function messages_load(inital_load) {
           var message_message = process_message(message.message);
           // Detect if youtube
           // Lighten color for text
-          var light_color = lighten_darken_color(message.color, 66);
+          var light_color = lighten_darken_color(message.color, -75);
           // build message html
           html += '<div class="message_parent">';
           html += '<span class="message_face glyphicon glyphicon-user" style="color: ' + light_color + ';"></span>';

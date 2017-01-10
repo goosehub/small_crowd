@@ -53,15 +53,15 @@ Class main_model extends CI_Model
     function new_message($user_key, $username, $color, $message, $room_key)
     {
         $data = array(
-        'user_key' => $user_key,
-        'username' => $username,
-        'color' => $color,
-        'message' => $message,
-        'room_key' => $room_key
+            'user_key' => $user_key,
+            'username' => $username,
+            'color' => $color,
+            'message' => $message,
+            'room_key' => $room_key,
         );
         $this->db->insert('message', $data);
     }
-    // message spam check
+
     function recent_messages($user_key, $message_limit_length)
     {
         $query = $this->db->query("
@@ -128,6 +128,7 @@ Class main_model extends CI_Model
         $data = array(
             'slug' => $slug,
             'last_load' => date('Y-m-d H:i:s', time()),
+            'created' => date('Y-m-d H:i:s', time()),
         );
         $this->db->insert('room', $data);
         return $this->db->insert_id();
@@ -142,6 +143,7 @@ Class main_model extends CI_Model
             'color' => $color,
             'ip' => $ip,
             'last_load' => date('Y-m-d H:i:s', time()),
+            'created' => date('Y-m-d H:i:s', time()),
         );
         $this->db->insert('user', $data);
         return $this->db->insert_id();
