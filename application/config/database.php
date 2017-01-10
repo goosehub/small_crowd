@@ -12,7 +12,7 @@ if (is_dev()) {
 } else {
 	$hostname = 'localhost';
 	$username = 'root';
-	$password = file_get_contents('application/auth.php');
+	$username = 'root';
 	$database = 'small_crowd';
 }
 

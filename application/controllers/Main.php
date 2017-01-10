@@ -224,7 +224,10 @@ class Main extends CI_Controller {
             $this->load->view('errors/page_not_found');
             return false;
         }
-        $token = '1234';
+        $token = file_get_contents('application/auth.php');
+        if (is_dev()) {
+            $token = '1234';
+        }
         if ( !hash_equals($token, $cron_token) ) {
             $this->load->view('errors/page_not_found');
             return false;
