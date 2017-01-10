@@ -27,6 +27,31 @@ window.onload = function() {
   $('#message_input').focus();
 }
 
+/*$('.ytp-thumbnail-overlay').on('click', function(){
+  console.log('marco');
+  var youtube_video = $(this).closest('.message_youtube');
+  console.log(youtube_video);
+});*/
+
+function on_youtube_ready() {
+  $('.message_youtube').each(function(){
+    // player = $(this).find('#player')[0];
+    player = $(this)[0];
+    console.log('marco');
+    // player.removeEventListener('onStateChange', 'youtube_start_video');
+    player.addEventListener('onStateChange', 'youtube_start_video');
+  });
+}
+
+function youtube_start_video(state) {
+  console.log('polo');
+  console.log(state);
+}
+
+function onYouTubePlayerReady() {
+  console.log('waldo');
+}
+
 // New Message
 function submit_new_message(e) {
   // Message input
@@ -103,13 +128,23 @@ function messages_load(inital_load) {
           }
           // Process message
           var message_message = process_message(message.message);
+          // Detect if youtube
           // Lighten color for text
           var light_color = lighten_darken_color(message.color, 66);
-          // Create message html
-          html += '<div class="message_parent"><span class="message_icon glyphicon glyphicon-user" style="color: ' + light_color + ';"></span><span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span> <span class="message_message">' + message_message + '</span></div>';
+          // build message html
+          html += '<div class="message_parent">';
+          html += '<span class="message_face glyphicon glyphicon-user" style="color: ' + light_color + ';"></span>';
+          if (use_pin(message_message)) {
+            html += '<span class="message_pin glyphicon glyphicon-pushpin" style="color: ' + light_color + ';"></span>';
+          }
+          html += '<span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span>';
+          html += '<span class="message_message">' + message_message + '</span>';
+          html += '</div>';
         });
         // Append to div
         $("#message_content_parent").append(html);
+        // Youtube Ready
+        on_youtube_ready();
         // Stay at bottom if at bottom
         if (at_bottom || inital_load) {
           scroll_to_bottom();
@@ -130,13 +165,29 @@ function process_message(message) {
   return message
 }
 
+function use_pin(message) {
+  if (
+    string_contains(message, 'message_youtube')
+    || string_contains(message, 'message_vimeo')
+    || string_contains(message, 'message_twitch')
+    || string_contains(message, 'message_vocaroo')
+    || string_contains(message, 'message_video')
+    ) {
+    return true;
+  }
+  return false;
+}
+
 function convert_youtube(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(\S+)/g;
   if (pattern.test(input)) {
-    var replacement = '<iframe width="420" height="345" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen class="message_youtube message_content"></iframe>';
+    var replacement = '<span class="message_youtube_parent"><iframe width="420" height="345" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen class="message_youtube message_content"></iframe></span>';
     var input = input.replace(pattern, replacement);
     // For start time, turn get param & into ?
-    var input = input.replace('&amp;t=', '?t=');
+    // ?wmode=opaque may appear twice
+    if (input.indexOf('&amp;t=') !== -1) {
+      var input = input.replace('&amp;t=', '?t=');
+    }
   }
   return input;
 }
@@ -198,6 +249,13 @@ function convert_general_url(input) {
 
 function scroll_to_bottom() {
   $("#message_content_parent").scrollTop($("#message_content_parent")[0].scrollHeight);
+}
+
+function string_contains(string, sub_string) {
+  if (string.indexOf(sub_string) !== -1) {
+    return true;
+  }
+  return false;
 }
 
 // http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors

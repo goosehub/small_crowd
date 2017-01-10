@@ -3,7 +3,8 @@
 ==========================================================================================
 
 High Priority
-    Figure out content vs chat so you can watch and chat at the same time
+    pin messages
+    Chat after leaving, check still part of room on load
 
 Low Priority
     Room not found message
