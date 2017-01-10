@@ -17,7 +17,7 @@ class Main extends CI_Controller {
         $this->system_user_id = 0;
         $this->system_welcome_slug = 'welcome';
         $this->system_leave_slug = 'leave';
-        $this->inactive_wait_time = 15;
+        $this->inactive_wait_time = 60;
     }
 
     public function start()
@@ -109,7 +109,7 @@ class Main extends CI_Controller {
     public function load()
     {
         // In dev, this replaces cron archive_inactive_users
-        if (is_dev()) {
+        if (is_dev() || true) {
             $this->archive_inactive_users();
             $this->archive_inactive_rooms();
         }
