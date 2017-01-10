@@ -27,33 +27,12 @@ window.onload = function() {
   $('#message_input').focus();
 }
 
-/*$('.ytp-thumbnail-overlay').on('click', function(){
-  console.log('marco');
-  var youtube_video = $(this).closest('.message_youtube');
-  console.log(youtube_video);
-});*/
-
-function on_youtube_ready() {
-  $('.message_youtube').each(function(){
-    // player = $(this).find('#player')[0];
-    player = $(this)[0];
-    console.log('marco');
-    // player.removeEventListener('onStateChange', 'youtube_start_video');
-    player.addEventListener('onStateChange', 'youtube_start_video');
-  });
-}
-
-function youtube_start_video(state) {
-  console.log('polo');
-  console.log(state);
-}
-
-function onYouTubePlayerReady() {
-  console.log('waldo');
-}
+$(document).on('click', '.message_pin', function(){
+  pin_action(event);
+});
 
 // New Message
-function submit_new_message(e) {
+function submit_new_message(event) {
   // Message input
   var message_input = $("#message_input").val();
   $.ajax({
@@ -65,14 +44,15 @@ function submit_new_message(e) {
       cache: false,
       success: function(response) {
         console.log('submit');
-        // Empty chat input
-        $('#message_input').val('');
         // All responses are error messsages
         if (response) {
           response = response.replace('<p>', '');
           response = response.replace('</p>', '');
           alert(response);
+          return false;
         }
+        // Empty chat input
+        $('#message_input').val('');
         // Load log so user can instantly see his message
         messages_load();
         // Focus back on input
@@ -143,14 +123,25 @@ function messages_load(inital_load) {
         });
         // Append to div
         $("#message_content_parent").append(html);
-        // Youtube Ready
-        on_youtube_ready();
         // Stay at bottom if at bottom
         if (at_bottom || inital_load) {
           scroll_to_bottom();
         }
       }
   });
+}
+
+function pin_action(event) {
+  if (!$(event.target).hasClass('active_pin')) {
+    $('.active_pin').removeClass('active_pin');
+    $('.pinned').removeClass('pinned')
+    $(event.target).addClass('active_pin');
+    $(event.target).parent().addClass('pinned')
+  }
+  else {
+    $(event.target).removeClass('active_pin');
+    $(event.target).parent().removeClass('pinned')
+  }
 }
 
 function process_message(message) {
@@ -181,7 +172,7 @@ function use_pin(message) {
 function convert_youtube(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(\S+)/g;
   if (pattern.test(input)) {
-    var replacement = '<span class="message_youtube_parent"><iframe width="420" height="345" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen class="message_youtube message_content"></iframe></span>';
+    var replacement = '<span class="message_youtube_parent"><iframe src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen class="message_youtube message_content"></iframe></span>';
     var input = input.replace(pattern, replacement);
     // For start time, turn get param & into ?
     // ?wmode=opaque may appear twice
@@ -195,7 +186,7 @@ function convert_youtube(input) {
 function convert_vimeo(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vimeo\.com)\/?(\S+)/g;
   if (pattern.test(input)) {
-   var replacement = '<iframe width="420" height="345" src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="message_vimeo message_content"></iframe>';
+   var replacement = '<iframe src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="message_vimeo message_content"></iframe>';
    var input = input.replace(pattern, replacement);
   }
   return input;

@@ -3,10 +3,9 @@
 ==========================================================================================
 
 High Priority
-    pin messages
-    Chat after leaving, check still part of room on load
 
 Low Priority
+    Chat after leaving, check still part of room on load
     Room not found message
     Allow joining full rooms by URL, but not matchmaking
     Security audit
