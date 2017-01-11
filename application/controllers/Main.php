@@ -6,6 +6,7 @@ class Main extends CI_Controller {
     public $room_capacity;
     public $system_user_id;
     public $system_welcome_slug;
+    public $system_start_room_slug;
     public $inactive_wait_time;
 
     function __construct()
@@ -16,8 +17,12 @@ class Main extends CI_Controller {
         $this->room_capacity = 4;
         $this->system_user_id = 0;
         $this->system_welcome_slug = 'welcome';
+        $this->system_start_room_slug = 'start_room';
         $this->system_leave_slug = 'leave';
         $this->inactive_wait_time = 60;
+        if (is_dev()) {
+            $this->inactive_wait_time = 15;
+        }
     }
 
     public function start()
@@ -64,15 +69,18 @@ class Main extends CI_Controller {
             $slug = uniqid();
             $available_room_id = $this->main_model->create_room($slug);
             $available_room = $this->main_model->get_room_by_id($available_room_id);
+
+            // System Start Room Message
+            $message = $this->system_start_room_message();
+            $result = $this->main_model->new_message($this->system_user_id, $this->system_start_room_slug, '#000000', $message, $available_room['id']);
         }
-        $room_key = $available_room['id'];
 
         // User added to room
         $user_id = $this->main_model->create_user($available_room['id'], $username, $location, $color, $ip);
         
         $sess_array = array(
             'id' => $user_id,
-            'room_key' => $room_key,
+            'room_key' => $available_room['id'],
             'username' => $username,
             'color' => $color
         );
@@ -80,7 +88,7 @@ class Main extends CI_Controller {
 
         // System Welcome Message
         $message = 'Welcome ' . $username . ' from ' . $location;
-        $result = $this->main_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $room_key);
+        $result = $this->main_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $available_room['id']);
 
         header('Location: ' . 'room/' . $available_room['slug']);
         exit();
@@ -277,5 +285,13 @@ class Main extends CI_Controller {
             return false;
         }
         return $user;
+    }
+
+    function system_start_room_message()
+    {
+        $message = '';
+        $message .= 'Welcome to your room. Others will join shortly. Post the URLs of Youtube videos, Vimeo videos, Twitch streams, Vocaroo recordings, WebMs, and Images to embeded them. Use the pin icon on media posts to keep in your view as you chat. Rooms top out at ' . $this->room_capacity . ' users to keep groups small. Users that leave will be replaced. If these strangers become friends, exchange info and stay in touch.';
+        $message .= ' Small Crowd is in open beta. Please contact goosepostbox@gmail.com with any bugs, unexpected behavior, or confusing interfaces.';
+        return $message;
     }
 }

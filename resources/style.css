@@ -57,6 +57,9 @@ body {
   vertical-align: bottom;
 }
 .system_message {
+  width: 33vw;
+  margin-left: 33vw;
+  margin-bottom: 0.5em;
   text-align: center;
 }
 
@@ -112,6 +115,10 @@ body {
 @media (max-device-width: 736px) {
   .message_pin {
     display: none;
+  }
+  .system_message {
+    width: 70vw;
+    margin-left: 15vw;
   }
 }
 

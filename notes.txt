@@ -4,8 +4,10 @@
 
 High Priority
     Fix cron on localhost
+    Leave room but can still chat
 
 Low Priority
+    Youtube non video link
     Lighten Darken Bug
     Chat after leaving, check still part of room on load
     Room not found message

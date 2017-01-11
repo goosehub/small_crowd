@@ -163,6 +163,7 @@ function use_pin(message) {
     || string_contains(message, 'message_twitch')
     || string_contains(message, 'message_vocaroo')
     || string_contains(message, 'message_video')
+    || string_contains(message, 'message_image')
     ) {
     return true;
   }
