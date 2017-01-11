@@ -3,10 +3,11 @@
 ==========================================================================================
 
 High Priority
-    Fix cron on localhost
-    Leave room but can still chat
+    Leave room but can still chat bug
 
 Low Priority
+    Detect instant leave
+    image url with query string
     Youtube non video link
     Lighten Darken Bug
     Chat after leaving, check still part of room on load
