@@ -5,18 +5,14 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $base_url = 'http://localhost/small_crowd/';
 }
 else {
-    $base_url = 'http://small_crowd.xyz/';
+    $base_url = 'http://interplay.xyz/small_crowd/';
 }
 
-// Cron Token
-$cron_token = file_get_contents('auth.php');    
-if (is_dev()) {
-    $cron_token = '1234';
-}
-else {
-    $cron_token = file_get_contents('auth.php');    
-}
+chdir(__DIR__);
+$auth = json_decode(file_get_contents('../auth.php'));
 
-// Taxes
 $route = 'cron/';
-echo file_get_contents($base_url . $route . $cron_token);
+$cron_url = $base_url . $route . $auth->token;
+echo $cron_url . '<br>';
+
+echo file_get_contents($cron_url);

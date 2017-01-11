@@ -31,21 +31,9 @@ function is_dev() {
 }
 
 // Auth Token
-function auth_token() {
-    $auth = file_get_contents('auth.php');
+function auth() {
+    $auth = json_decode(file_get_contents('auth.php'));
     return $auth;
-}
-
-// Function to format names
-// http://php.net/manual/en/function.ucwords.php (First comment)
-function ucname($string) {
-    $string =ucwords(strtolower($string));
-    foreach (array('-', '\'') as $delimiter) {
-      if (strpos($string, $delimiter) !== false) {
-        $string =implode($delimiter, array_map('ucfirst', explode($delimiter, $string)));
-      }
-    }
-    return $string;
 }
 
 // For human readable spans of time
@@ -109,21 +97,5 @@ function flash( $name = '', $message = '', $class = 'success' ) {
             unset($_SESSION[$name]);
             unset($_SESSION[$name.'_class']);
         }
-    }
-}
-
-// Create hash_equals function if not exists (for token authentication)
-function createHashEquals() {
-    if (!function_exists('hash_equals')) {
-      function hash_equals($str1, $str2) {
-        if (strlen($str1) != strlen($str2)) {
-          return false;
-        } else {
-          $res = $str1 ^ $str2;
-          $ret = 0;
-          for($i = strlen($res) - 1; $i >= 0; $i--) $ret |= ord($res[$i]);
-          return !$ret;
-        }
-      }
     }
 }

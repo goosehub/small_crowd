@@ -117,7 +117,7 @@ class Main extends CI_Controller {
     public function load()
     {
         // In dev, this replaces cron archive_inactive_users
-        if (is_dev() || true) {
+        if (is_dev()) {
             $this->archive_inactive_users();
             $this->archive_inactive_rooms();
         }
@@ -232,7 +232,8 @@ class Main extends CI_Controller {
             $this->load->view('errors/page_not_found');
             return false;
         }
-        $token = file_get_contents('application/auth.php');
+        $auth = auth();
+        $token = $auth->token;
         if (is_dev()) {
             $token = '1234';
         }
@@ -290,8 +291,7 @@ class Main extends CI_Controller {
     function system_start_room_message()
     {
         $message = '';
-        $message .= 'Welcome to your room. Others will join shortly. Post the URLs of Youtube videos, Vimeo videos, Twitch streams, Vocaroo recordings, WebMs, and Images to embeded them. Use the pin icon on media posts to keep in your view as you chat. Rooms top out at ' . $this->room_capacity . ' users to keep groups small. Users that leave will be replaced. If these strangers become friends, exchange info and stay in touch.';
-        $message .= ' Small Crowd is in open beta. Please contact goosepostbox@gmail.com with any bugs, unexpected behavior, or confusing interfaces.';
+        $message .= 'Welcome to your room. Others will join shortly. Post the URLs of Youtube videos, Vimeo videos, Twitch streams, Vocaroo recordings, WebMs, and Images to embeded them. Use the pin icon on media posts to keep in your view as you chat.';
         return $message;
     }
 }

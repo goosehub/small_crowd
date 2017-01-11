@@ -15,7 +15,7 @@
             <hr>
             <p class="lead text-center">Small Crowd is a platform for gathering people up in groups of <strong><?php echo $this->room_capacity; ?></strong> for optimal conversations.</p>
             <hr>
-            <h2 class="text-danger text-center">*BETA*</h2>
+            <strong class="text-danger">*BETA*</strong>
             <p class="">Small Crowd is in open beta. Please contact goosepostbox@gmail.com with any bugs, unexpected behavior, or confusing interfaces.</p>
         </div>
     </div>
