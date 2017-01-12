@@ -14,12 +14,11 @@ Low Priority
     Room not found message
     Allow joining full rooms by URL, but not matchmaking
     Security audit
-    XSS audit
     Performance audit
     Consider regex on submit instead
     Image Upload
     Video Upload
-    Examine overgrown pages
+    Examine overgrown pages memory usage
 
 No Priority
 

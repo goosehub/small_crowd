@@ -13,12 +13,13 @@
                 <button type="submit" class="btn btn-action form-control"><strong>Join a Room</strong></button>
             </form>
             <hr>
-            <p class="lead text-center">Small Crowd is a platform for gathering people up in groups of <strong><?php echo $this->room_capacity; ?></strong> for optimal conversations.</p>
-            <hr>
-            <strong class="text-danger">*BETA*</strong>
-            <p class="">Small Crowd is in open beta. Please contact goosepostbox@gmail.com with any bugs, unexpected behavior, or confusing interfaces.</p>
+            <p class="lead text-center">Get paired with <?php echo $this->room_capacity - 1; ?> strangers from around the world</p>
         </div>
     </div>
+</div>
+
+<div id="beta_parent">
+    <small>Small Crowd is in open beta. Please contact goosepostbox@gmail.com with any bugs, unexpected behavior, or confusing interfaces.</small>
 </div>
 
 <script>

@@ -254,8 +254,6 @@ class Main extends CI_Controller {
         $inactive_users = $this->main_model->inactive_users($this->inactive_wait_time);
 
         foreach ($inactive_users as $user) {
-            echo 'User Being archived - ';
-            echo '<pre>'; print_r($user); echo '</pre>';
             $this->main_model->archive_user_by_id($user['id']);
 
             // System Leave Message
@@ -269,8 +267,6 @@ class Main extends CI_Controller {
         $inactive_rooms = $this->main_model->inactive_rooms($this->inactive_wait_time);
 
         foreach ($inactive_rooms as $room) {
-            echo 'Room Being archived - ';
-            echo '<pre>'; print_r($room); echo '</pre>';
             $this->main_model->archive_room_by_id($room['id']);
         }
     }
@@ -290,8 +286,8 @@ class Main extends CI_Controller {
 
     function system_start_room_message()
     {
-        $message = '';
-        $message .= 'Welcome to your room. Others will join shortly. Post the URLs of Youtube videos, Vimeo videos, Twitch streams, Vocaroo recordings, WebMs, and Images to embed them. Use the pin icon on media posts to keep in view as you chat.';
+        $message = "";
+        $message .= "Welcome! You&#39;re the first! Others will join soon. Some tips: Embed Youtube, Vimeo, Twitch, Vocaroo, and Images by posting the URL. Pin posts to keep in view as you chat. Keep in touch with friends you make!";
         return $message;
     }
 }

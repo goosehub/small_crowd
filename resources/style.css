@@ -16,6 +16,15 @@ body {
   border: 0.1px solid #888;
 }
 
+/* Start */
+#beta_parent {
+  position: fixed;
+  bottom: 1em;
+  width: 50%;
+  margin-left: 25%;
+  text-align: center;
+}
+
 /* Content */
 #message_content_parent {
   /* Fix chat to bottom */
@@ -59,8 +68,12 @@ body {
 .system_message {
   width: 33vw;
   margin-left: 33vw;
-  margin-bottom: 0.5em;
   text-align: center;
+}
+.system_message.start_room {
+  color: #661141;
+  font-weight: bold;
+  margin-bottom: 2em;
 }
 
 /* Pinned */
