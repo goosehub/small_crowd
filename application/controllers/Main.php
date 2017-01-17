@@ -168,7 +168,7 @@ class Main extends CI_Controller {
         }
         // Validation
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[3000]');
+        $this->form_validation->set_rules('message_input', 'Message', 'trim|max_length[3000]|callback_new_message_validation');
 
         if ($this->form_validation->run() == FALSE) {
             echo validation_errors();
@@ -195,12 +195,15 @@ class Main extends CI_Controller {
         if (!$user) {
             return false;
         }
+        if (!$this->input->post('message_input')) {
+            return false;
+        }
         // Limit number of new messages in a timespan
-        $message_spam_limit_amount = 8;
+        $message_spam_limit_amount = 10;
         $message_spam_limit_length = 60;
         $recent_messages = $this->main_model->recent_messages($user['id'], $message_spam_limit_length);
         if (!is_dev() && $recent_messages > $message_spam_limit_amount) {
-            echo 'Your talking too much';
+            $this->form_validation->set_message('new_message_validation', 'Your talking too much');
             return false;
         }
 

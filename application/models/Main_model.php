@@ -68,7 +68,6 @@ Class main_model extends CI_Model
             SELECT COUNT(id) as recent_messages
             FROM `message`
             WHERE `user_key` = '" . $user_key . "'
-            AND `archived` = 0
             AND `timestamp` > (now() - INTERVAL " . $message_limit_length . " SECOND);
         ");
         $result = $query->result_array();

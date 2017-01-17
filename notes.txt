@@ -5,7 +5,6 @@
 High Priority
     Check if user still exists on load
     Allow joining full rooms by URL, but not matchmaking
-    fix spam limit
 
 Low Priority
     soundcloud embed
