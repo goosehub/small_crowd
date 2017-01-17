@@ -3,8 +3,9 @@
 ==========================================================================================
 
 High Priority
-    Leave room but can still chat bug
-    Allow joining full rooms by URL, but not matchmaking if room exists
+    Check if user still exists on load
+    Allow joining full rooms by URL, but not matchmaking
+    soundcloud embed
 
 Low Priority
     duplicate enter

@@ -171,7 +171,7 @@ function use_pin(message) {
 }
 
 function convert_youtube(input) {
-  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(\S+)/g;
+  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com|youtu\.be)\/(?!channel\/)(?:watch\?v=)?(\S+)/g;
   if (pattern.test(input)) {
     var replacement = '<span class="message_youtube_parent"><iframe src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen class="message_youtube message_content"></iframe></span>';
     var input = input.replace(pattern, replacement);
