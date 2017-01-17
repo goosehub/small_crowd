@@ -17,6 +17,12 @@ body {
 }
 
 /* Start */
+.start_title {
+  font-family: 'Pacifico', cursive;
+}
+.start_label, .start_join_button, .start_subtitle {
+  font-family: 'Righteous', cursive;
+}
 #beta_parent {
   position: fixed;
   bottom: 1em;
@@ -69,6 +75,7 @@ body {
   width: 33vw;
   margin-left: 33vw;
   text-align: center;
+  font-family: 'Righteous', cursive;
 }
 .system_message.start_room {
   color: #661141;

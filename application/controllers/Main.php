@@ -167,7 +167,7 @@ class Main extends CI_Controller {
         }
         // Validation
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[1000]');
+        $this->form_validation->set_rules('message_input', 'Message', 'trim|required|max_length[3000]');
 
         if ($this->form_validation->run() == FALSE) {
             echo validation_errors();
