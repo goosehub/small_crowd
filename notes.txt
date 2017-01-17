@@ -4,11 +4,10 @@
 
 High Priority
     Leave room but can still chat bug
-    duplicate enter
-    image url with query string
     Lighten Darken Bug/functionality
 
 Low Priority
+    duplicate enter
     Times shown when long time between chats
     Detect instant leave
     Youtube non video link
