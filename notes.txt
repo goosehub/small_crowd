@@ -6,10 +6,9 @@ High Priority
     Check if user still exists on load
     Allow joining full rooms by URL, but not matchmaking
     fix spam limit
-    soundcloud embed
-        <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/272628707&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
 
 Low Priority
+    soundcloud embed
     duplicate enter
     Performance audit
     Consider regex on submit instead

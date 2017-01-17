@@ -148,7 +148,6 @@ function process_message(message) {
   // Order important
   message = convert_youtube(message);
   message = convert_vimeo(message);
-  message = convert_soundcloud(message);
   message = convert_twitch(message);
   message = convert_vocaroo(message);
   message = convert_video_url(message);
@@ -161,7 +160,6 @@ function use_pin(message) {
   if (
     string_contains(message, 'message_youtube')
     || string_contains(message, 'message_vimeo')
-    || string_contains(message, 'message_soundcloud')
     || string_contains(message, 'message_twitch')
     || string_contains(message, 'message_vocaroo')
     || string_contains(message, 'message_video')
@@ -191,31 +189,6 @@ function convert_vimeo(input) {
   if (pattern.test(input)) {
    var replacement = '<iframe src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="message_vimeo message_content"></iframe>';
    var input = input.replace(pattern, replacement);
-  }
-  return input;
-}
-
-function convert_soundcloud(input) {
-  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:soundcloud\.com)(\/\w+\/)(\S+)/g;
-  if (pattern.test(input)) {
-    console.log(input);
-    var replacement = '<iframe scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/$1&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;visual=true" class="message_soundcloud message_content"></iframe>';
-   var input = input.replace(pattern, replacement);
-   var settings = {
-     "async": true,
-     "crossDomain": true,
-     "url": "http://soundcloud.com/oembed",
-     "method": "POST",
-     "headers": {},
-     "data": {
-       "format": "json",
-       "url": "http://soundcloud.com/forss/flickermood"
-     }
-   }
-
-   $.ajax(settings).done(function (response) {
-     console.log(response);
-   });
   }
   return input;
 }
