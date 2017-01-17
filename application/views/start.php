@@ -2,6 +2,9 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <h1 class="start_title text-center"><?php echo site_name(); ?></h1>
+            <?php if ($error) { ?>
+            <div class="start_error alert alert-danger text-center"><?php echo $error; ?></div>
+            <?php } ?>
             <form action="<?=base_url()?>join_room" method="post">
                 <label class="start_label">Name</label>
                 <input type="text" name="username" id="start_username" class="form-control"/>

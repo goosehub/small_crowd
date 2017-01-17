@@ -8,20 +8,16 @@ High Priority
 
 Low Priority
     duplicate enter
-    Times shown when long time between chats
-    Detect instant leave
-    Youtube non video link
-    Chat after leaving, check still part of room on load
-    Room not found message
-    Allow joining full rooms by URL, but not matchmaking
-    Security audit
     Performance audit
     Consider regex on submit instead
-    Image Upload
-    Video Upload
     Examine overgrown pages memory usage
+    Allow joining full rooms by URL, but not matchmaking if room exists
 
 No Priority
+    Image Upload
+    Video Upload
+    Youtube non video link
+    Detect instant leave
 
 ==========================================================================================
     Documentation

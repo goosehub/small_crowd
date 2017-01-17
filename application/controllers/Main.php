@@ -28,6 +28,7 @@ class Main extends CI_Controller {
     public function start()
     {
         $data['page_title'] = site_name();
+        $data['error'] = ucfirst(str_replace('_', ' ', $this->input->get('error')));
         $this->load->view('template/header', $data);
         $this->load->view('start', $data);
         $this->load->view('template/footer', $data);
@@ -99,7 +100,7 @@ class Main extends CI_Controller {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
         $user = $this->get_user_by_session();
         if ($user['room_key'] != $data['room']['id']) {
-            header('Location: ' . base_url());
+            header('Location: ' . base_url() . '?error=room_not_found');
             return false;
         }
         $data['load_interval'] = 1 * 1000;
