@@ -5,7 +5,7 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $base_url = 'http://localhost/small_crowd/';
 }
 else {
-    $base_url = 'http://interplay.xyz/small_crowd/';
+    $base_url = 'http://smallcrowd.us/';
 }
 
 chdir(__DIR__);

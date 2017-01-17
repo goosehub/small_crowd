@@ -126,7 +126,7 @@ class Main extends CI_Controller {
         $room_key = $this->input->post('room_key');
         $inital_load = $this->input->post('inital_load');
         if ($inital_load) {
-            $limit = 50;
+            $limit = 100;
         }
         else {
             $limit = 5;

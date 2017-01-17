@@ -4,13 +4,14 @@
 
 High Priority
     Leave room but can still chat bug
+    duplicate enter
+    image url with query string
+    Lighten Darken Bug/functionality
 
 Low Priority
     Times shown when long time between chats
     Detect instant leave
-    image url with query string
     Youtube non video link
-    Lighten Darken Bug
     Chat after leaving, check still part of room on load
     Room not found message
     Allow joining full rooms by URL, but not matchmaking
