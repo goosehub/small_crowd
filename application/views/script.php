@@ -113,7 +113,7 @@ function messages_load(inital_load) {
           var light_color = lighten_darken_color(message.color, -50);
           // build message html
           html += '<div class="message_parent">';
-          html += '<span class="message_face glyphicon glyphicon-user" style="color: ' + light_color + ';"></span>';
+          html += '<span class="message_face glyphicon glyphicon-user" title="' + message.timestamp + '" style="color: ' + light_color + ';"></span>';
           if (use_pin(message_message)) {
             html += '<span class="message_pin glyphicon glyphicon-pushpin" style="color: ' + light_color + ';"></span>';
           }
