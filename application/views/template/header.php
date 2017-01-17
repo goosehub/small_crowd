@@ -10,6 +10,9 @@
     <!-- Page Title -->
     <title><?php echo $page_title; ?></title>
 
+    <!-- Google please read this -->
+    <meta name="description" content="Small Crowd matches 4 strangers from around the world together in a chat room to talk and share">
+
     <!-- Link to Favicon -->
     <link rel="icon" href="<?=base_url()?>resources/img/favicon.ico">
 
