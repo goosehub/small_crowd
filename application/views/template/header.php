@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-
-    <!-- For Mobile -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
 
     <!-- Page Title -->
     <title><?php echo $page_title; ?></title>
 
     <!-- Google please read this -->
     <meta name="description" content="Small Crowd matches 4 strangers from around the world together in a chat room to talk and share">
+
+    <!-- For Mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
 
     <!-- Link to Favicon -->
     <link rel="icon" href="<?=base_url()?>resources/img/favicon.ico">

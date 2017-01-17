@@ -4,14 +4,13 @@
 
 High Priority
     Leave room but can still chat bug
-    Lighten Darken Bug/functionality
+    Allow joining full rooms by URL, but not matchmaking if room exists
 
 Low Priority
     duplicate enter
     Performance audit
     Consider regex on submit instead
     Examine overgrown pages memory usage
-    Allow joining full rooms by URL, but not matchmaking if room exists
 
 No Priority
     Image Upload
