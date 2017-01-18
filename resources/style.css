@@ -77,10 +77,16 @@ body {
   text-align: center;
   font-family: 'Righteous', cursive;
 }
+.system_message.start_room, .system_message.archive_room {
+  font-weight: bold;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
 .system_message.start_room {
   color: #661141;
-  font-weight: bold;
-  margin-bottom: 2em;
+}
+.system_message.archive_room {
+  color: #980000;
 }
 
 /* Pinned */

@@ -3,12 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller {
 
-    public $room_capacity;
-    public $system_user_id;
-    public $system_welcome_slug;
-    public $system_start_room_slug;
-    public $inactive_wait_time;
-
     function __construct()
     {
         parent::__construct();
@@ -19,6 +13,7 @@ class Main extends CI_Controller {
         $this->system_welcome_slug = 'welcome';
         $this->system_start_room_slug = 'start_room';
         $this->system_leave_slug = 'leave';
+        $this->system_archive_room_slug = 'archive_room';
         $this->inactive_wait_time = 60;
         if (is_dev()) {
             $this->inactive_wait_time = 15;
@@ -99,6 +94,9 @@ class Main extends CI_Controller {
         }
 
         // User added to room
+        $username = htmlspecialchars($username);
+        $location = htmlspecialchars($location);
+        $color = htmlspecialchars($color);
         $user_id = $this->main_model->create_user($available_room['id'], $username, $location, $color, $ip);
         
         $sess_array = array(
@@ -199,8 +197,8 @@ class Main extends CI_Controller {
         }
 
         // Set variables
-        $message = htmlspecialchars($this->input->post('message_input'));
         $user = $this->get_user_by_session();
+        $message = htmlspecialchars($this->input->post('message_input'));
 
         // Insert message
         $result = $this->main_model->new_message($user['id'], $user['username'], $user['color'], $message, $user['room_key']);
@@ -292,7 +290,12 @@ class Main extends CI_Controller {
         $inactive_rooms = $this->main_model->inactive_rooms($this->inactive_wait_time);
 
         foreach ($inactive_rooms as $room) {
+            // Archive room
             $this->main_model->archive_room_by_id($room['id']);
+
+            // System Archive Message
+            $message = 'This room has been archived. No new users will be placed into this room, but this room can still be accessed by direct URL.';
+            $result = $this->main_model->new_message($this->system_user_id, $this->system_archive_room_slug, '#000000', $message, $room['id']);
         }
     }
 

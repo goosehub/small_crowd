@@ -3,9 +3,11 @@
 ==========================================================================================
 
 High Priority
-    soundcloud embed (api call needed to turn friendly url into embed)
+    multiple rooms cause expired session issues
+    name injection
 
 Low Priority
+    soundcloud embed (api call needed to turn friendly url into embed)
     duplicate enter
     Performance audit
     Consider regex on submit instead
