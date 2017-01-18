@@ -1,8 +1,7 @@
 <!-- Main Script -->
 <script>
 var room_key = <?php echo $room['id']; ?>;
-var slug = '<?php echo $room['
-slug ']; ?>';
+var slug = '<?php echo $room['slug']; ?>';
 var current_message_id = 0;
 var at_bottom = true;
 
@@ -103,8 +102,7 @@ function messages_load(inital_load) {
       // Handle errors by alerting and rejoining
       if (messages.error) {
         alert(messages.error + '. You\'ll be redirected so you can rejoin the room.');
-        window.location = '<?=base_url()?>join_start/<?php echo $room['
-        slug ']; ?>';
+        window.location = '<?=base_url()?>join_start/<?php echo $room['slug']; ?>';
         return false;
       }
       $.each(messages, function(i, message) {
@@ -123,11 +121,11 @@ function messages_load(inital_load) {
         // Detect if youtube
         // build message html
         html += '<div class="message_parent">';
-        html += '<span class="message_face glyphicon glyphicon-user" title="' + message.timestamp + '" style="color: ' + light_color + ';"></span>';
+        html += '<span class="message_face glyphicon glyphicon-user" title="' + message.timestamp + '" style="color: ' + message.color + ';"></span>';
         if (use_pin(message_message)) {
-          html += '<span class="message_pin glyphicon glyphicon-pushpin" style="color: ' + light_color + ';"></span>';
+          html += '<span class="message_pin glyphicon glyphicon-pushpin" style="color: ' + message.color + ';"></span>';
         }
-        html += '<span class="message_username" style="color: ' + light_color + ';">' + message.username + '</span>';
+        html += '<span class="message_username" style="color: ' + message.color + ';">' + message.username + '</span>';
         html += '<span class="message_message">' + message_message + '</span>';
         html += '</div>';
       });
