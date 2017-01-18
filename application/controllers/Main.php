@@ -233,6 +233,7 @@ class Main extends CI_Controller {
     {
         $data['page_title'] = site_name();
         $this->load->view('template/header', $data);
+        $this->load->view('about', $data);
         $this->load->view('template/footer', $data);
     }
 

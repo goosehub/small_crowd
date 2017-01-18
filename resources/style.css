@@ -12,7 +12,7 @@ body {
 .start_label, .start_join_button, .start_subtitle {
   font-family: 'Righteous', cursive;
 }
-#beta_parent {
+#start_footer {
   position: fixed;
   bottom: 1em;
   width: 50%;
@@ -139,6 +139,11 @@ body {
   .system_message {
     width: 70vw;
     margin-left: 15vw;
+  }
+  #start_footer {
+    position: static;
+    text-align: center;
+    margin-top: 5em;
   }
 }
 

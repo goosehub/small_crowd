@@ -12,8 +12,9 @@ $route['room/(:any)'] = 'main/room/$1';
 
 $route['cron/(:any)'] = "main/cron/$1";
 
+$route['about'] = 'main/about';
+
 $route['error'] = 'main/error';
-$route['about'] = 'main/main';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

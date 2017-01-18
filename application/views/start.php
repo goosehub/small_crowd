@@ -21,8 +21,16 @@
     </div>
 </div>
 
-<div id="beta_parent">
-    <small>Small Crowd is in open beta. Please contact goosepostbox@gmail.com with any bugs, unexpected behavior, or confusing interfaces.</small>
+<div id="start_footer">
+    <a href="https://www.reddit.com/r/smallcrowd/" target="_blank">/r/smallcrowd</a>
+    |
+    <a href="https://github.com/goosehub/small_crowd" target="_blank">GitHub</a>
+    |
+    <a href="http://gooseweb.io/" target="_blank">gooseweb.io</a>
+    |
+    <a href="<?=base_url()?>about">More Info</a>
+    <br>
+    <small>Contact goosepostbox@gmail.com with any bugs, unexpected behavior, or confusing interfaces.</small>
 </div>
 
 <script>
