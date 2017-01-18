@@ -231,7 +231,7 @@ function convert_video_url(input) {
 }
 
 function convert_image_url(input) {
-  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png)(?:\?\S+)?)/gi;
+  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png)?(?:\?\S+)?)/gi;
   if (pattern.test(input)) {
     var replacement = '<a href="$1" target="_blank" class="message_image_link message_content"><img class="message_image message_content" src="$1"/></a><br />';
     var input = input.replace(pattern, replacement);

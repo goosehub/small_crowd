@@ -14,6 +14,7 @@ Low Priority
     Performance audit
     Consider regex on submit instead
     Examine overgrown pages memory usage
+    Test scripts (test strings)
 
 No Priority
     Image Upload
