@@ -1,19 +1,8 @@
+/* Important, see init_theme in script.php for color scheme specific styles */
+
 /* Global */
 body {
   font-family: "Roboto", sans-serif;
-}
-
-/* Color Scheme */
-body {
-  background-color: #F4F4F4;
-  color: #222;
-}
-#message_input {
-  background-color: #F4FAFF;
-  color: #222;
-}
-.message_pin {
-  border: 0.1px solid #888;
 }
 
 /* Start */
@@ -127,14 +116,19 @@ body {
 }
 #message_input {
   height: 4em;
+  background-color: #F4FAFF;
+  color: #222;
 }
 
 /* Join New */
-#join_new {
+#toolbar {
   position: fixed;
   top: 0;
   left: 0;
   opacity: 0.9;
+}
+#toggle_theme.active {
+  font-weight: bold;
 }
 
 /* Mobile */

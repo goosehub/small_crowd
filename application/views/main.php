@@ -9,7 +9,10 @@
       <input name="submit_message" type="submit" id="submit_message" value="true" style="position: absolute; left: -9999px">
     </form>
   </div>
-  <a href="<?=base_url()?>" id="join_new" class="btn btn-primary btn-sm">
-    Join a new room
-  </a>
+  <div id="toolbar">
+    <a href="<?=base_url()?>" id="join_new" class="btn btn-sm btn-primary">
+      New room
+    </a>
+    <div id="toggle_theme" class="btn btn-sm btn-danger">Dark Theme</div>
+  </div>
 </div>

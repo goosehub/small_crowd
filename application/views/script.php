@@ -28,9 +28,15 @@ window.onload = function() {
   $('#message_input').focus();
 }
 
-$(document).on('click', '.message_pin', function(event){
+$(document).on('click', '.message_pin', function(event) {
   pin_action(event);
 });
+
+$('#toggle_theme').click(function(event) {
+  toggle_theme(event);
+});
+
+init_theme();
 
 // New Message
 function submit_new_message(event) {
@@ -113,8 +119,6 @@ function messages_load(inital_load) {
           // Process message
           var message_message = process_message(message.message);
           // Detect if youtube
-          // Lighten color for text
-          var light_color = lighten_darken_color(message.color, -50);
           // build message html
           html += '<div class="message_parent">';
           html += '<span class="message_face glyphicon glyphicon-user" title="' + message.timestamp + '" style="color: ' + light_color + ';"></span>';
@@ -254,24 +258,25 @@ function string_contains(string, sub_string) {
   return false;
 }
 
-// http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
-function lighten_darken_color(col,amt) {
-    var usePound = false;
-    if ( col[0] == "#" ) {
-        col = col.slice(1);
-        usePound = true;
-    }
-    var num = parseInt(col,16);
-    var r = (num >> 16) + amt;
-    if ( r > 255 ) r = 255;
-    else if  (r < 0) r = 0;
-    var b = ((num >> 8) & 0x00FF) + amt;
-    if ( b > 255 ) b = 255;
-    else if  (b < 0) b = 0;
-    var g = (num & 0x0000FF) + amt;
-    if ( g > 255 ) g = 255;
-    else if  ( g < 0 ) g = 0;
-    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+function init_theme() {
+  $('body').css('background-color', '#F4F4F4');
+  $('body').css('color', '#222');
+  $('.message_pin').css('border', '0.1px solid #888');
+}
+
+function toggle_theme(event) {
+  if ($(event.target).hasClass('active')) {
+    $(event.target).removeClass('active');
+    $('body').css('background-color', '#F4F4F4');
+    $('body').css('color', '#222');
+    $('.message_pin').css('border', '0.1px solid #888');
+  }
+  else {
+    $(event.target).addClass('active');
+    $('body').css('background-color', '#222');
+    $('body').css('color', '#F4F4F4');
+    $('.message_pin').css('border', '0.1px solid #333');
+  }
 }
 
 </script>
