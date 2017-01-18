@@ -4,7 +4,8 @@
 
 High Priority
     shade only if very light or dark
-    youtube playlist
+    youtube start time
+        http://stackoverflow.com/questions/17379268/youtube-droped-t-start-time-support-in-direct-url-and-embed-videos
 
 Low Priority
     soundcloud embed (api call needed to turn friendly url into embed)
