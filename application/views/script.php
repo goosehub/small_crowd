@@ -90,9 +90,10 @@ function messages_load(inital_load) {
         if (!messages) {
           return false;
         }
+        // Handle errors by alerting and rejoining
         if (messages.error) {
-          alert(messages.error);
-          window.location = '<?=base_url()?>';
+          alert(messages.error + '. You\'ll be redirected so you can rejoin the room.');
+          window.location = '<?=base_url()?>join_start/<?php echo $room['slug']; ?>';
           return false;
         }
         $.each(messages, function(i, message) {

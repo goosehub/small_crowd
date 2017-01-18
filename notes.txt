@@ -3,11 +3,9 @@
 ==========================================================================================
 
 High Priority
-    Check if user still exists on load
-    Allow joining full rooms by URL, but not matchmaking
+    soundcloud embed (api call needed to turn friendly url into embed)
 
 Low Priority
-    soundcloud embed
     duplicate enter
     Performance audit
     Consider regex on submit instead

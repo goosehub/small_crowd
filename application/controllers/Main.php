@@ -34,7 +34,20 @@ class Main extends CI_Controller {
         $this->load->view('template/footer', $data);
     }
 
-    public function join_room()
+    public function join_start($slug)
+    {
+        $data['page_title'] = site_name();
+        $data['room'] = $this->main_model->get_room_by_slug($slug);
+        if (empty($data['room'])) {
+            header('Location: ' . base_url() . '?error=room_not_found');
+            return false;
+        }
+        $this->load->view('template/header', $data);
+        $this->load->view('join_start', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+    public function join_room($slug = false)
     {
         // Validation
         $this->load->library('form_validation');
@@ -47,7 +60,6 @@ class Main extends CI_Controller {
             $this->session->set_flashdata('validation_errors', validation_errors());
             header('Location: ' . base_url() . 'error');
             return false;
-            exit();
         }
 
         // Input
@@ -62,18 +74,28 @@ class Main extends CI_Controller {
         $color = $this->input->post('color');
         $ip = $_SERVER['REMOTE_ADDR'];
 
-        // Look for room
-        $available_room = $this->main_model->get_available_room($this->room_capacity);
+        // If room slug is passed, use that room
+        if ($slug) {
+            $available_room = $this->main_model->get_room_by_slug($slug);
+            if (empty($available_room)) {
+                header('Location: ' . base_url() . '?error=room_not_found');
+                return false;
+            }
+        }
+        // Else, look for room
+        else {
+            $available_room = $this->main_model->get_available_room($this->room_capacity);
 
-        // If no room, make one
-        if (empty($available_room)) {
-            $slug = uniqid();
-            $available_room_id = $this->main_model->create_room($slug);
-            $available_room = $this->main_model->get_room_by_id($available_room_id);
+            // If no room available, make a new one
+            if (empty($available_room)) {
+                $slug = uniqid();
+                $available_room_id = $this->main_model->create_room($slug);
+                $available_room = $this->main_model->get_room_by_id($available_room_id);
 
-            // System Start Room Message
-            $message = $this->system_start_room_message();
-            $result = $this->main_model->new_message($this->system_user_id, $this->system_start_room_slug, '#000000', $message, $available_room['id']);
+                // System Start Room Message
+                $message = $this->system_start_room_message();
+                $result = $this->main_model->new_message($this->system_user_id, $this->system_start_room_slug, '#000000', $message, $available_room['id']);
+            }
         }
 
         // User added to room
@@ -91,16 +113,20 @@ class Main extends CI_Controller {
         $message = 'Welcome ' . $username . ' from ' . $location;
         $result = $this->main_model->new_message($this->system_user_id, $this->system_welcome_slug, '#000000', $message, $available_room['id']);
 
-        header('Location: ' . 'room/' . $available_room['slug']);
-        exit();
+        header('Location: ' . base_url() . 'room/' . $available_room['slug']);
+        return true;
     }
 
     public function room($slug)
     {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
         $user = $this->get_user_by_session();
-        if ($user['room_key'] != $data['room']['id']) {
+        if (empty($data['room'])) {
             header('Location: ' . base_url() . '?error=room_not_found');
+            return false;
+        }
+        if ($user['room_key'] != $data['room']['id']) {
+            header('Location: ' . base_url() . 'join_start/' . $slug);
             return false;
         }
         $data['load_interval'] = 1 * 1000;
@@ -134,13 +160,15 @@ class Main extends CI_Controller {
         }
 
         $user = $this->get_user_by_session();
-        if (!$user) {
+        if (!$user || $user['archived']) {
             $error_message['error'] = 'Your session has expired';
             echo json_encode($error_message);
             return false;
         }
         if ($user['room_key'] != $room_key) {
-            $error_message['error'] = 'This is not your room';
+            // This shouldn't happen, so we'll give a more standard handling of it
+            // $error_message['error'] = 'This is not your room';
+            $error_message['error'] = 'Your session has expired';
             echo json_encode($error_message);
             return false;
         }
@@ -161,11 +189,6 @@ class Main extends CI_Controller {
     // For new messages
     public function new_message()
     {
-        $user = $this->get_user_by_session();
-        if (!$user) {
-            echo 'Your session has expired';
-            return false;
-        }
         // Validation
         $this->load->library('form_validation');
         $this->form_validation->set_rules('message_input', 'Message', 'trim|max_length[3000]|callback_new_message_validation');
@@ -174,28 +197,26 @@ class Main extends CI_Controller {
             echo validation_errors();
             return false;
         }
-        $user = $this->main_model->get_user_by_id($user['id']);
-        if (empty($user)) {
-            echo 'Your session has expired';
-            return false;
-        }
 
         // Set variables
         $message = htmlspecialchars($this->input->post('message_input'));
+        $user = $this->get_user_by_session();
 
         // Insert message
         $result = $this->main_model->new_message($user['id'], $user['username'], $user['color'], $message, $user['room_key']);
-        return true;
     }
 
     // Message Callback
     public function new_message_validation()
     {
+        // This shouldn't happen except by malicious means, but handle gracefully just in case
         $user = $this->get_user_by_session();
-        if (!$user) {
+        if (!$user || $user['archived']) {
+            $this->form_validation->set_message('new_message_validation', 'Your session has expired');
             return false;
         }
         if (!$this->input->post('message_input')) {
+            $this->form_validation->set_message('new_message_validation', '');
             return false;
         }
         // Limit number of new messages in a timespan
@@ -291,7 +312,7 @@ class Main extends CI_Controller {
     function system_start_room_message()
     {
         $message = "";
-        $message .= "Welcome! You&#39;re the first! Others will join soon. Some tips: Embed Youtube, Vimeo, Twitch, Vocaroo, and Images by posting the URL. Pin posts to keep in view as you chat. Keep in touch with friends you make!";
+        $message .= "Welcome! You&#39;re the first! Others will join soon. Some tips: Embed Youtube, Vimeo, Twitch, Vocaroo, and Images by posting the URL. Pin posts to keep in view as you chat. Share this url to invite others to join.";
         return $message;
     }
 }

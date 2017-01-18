@@ -4,6 +4,7 @@
             <br> <br> <br> <br> <br> <br>
             <div class="alert alert-danger">
                 <?php if ($validation_errors) { echo $validation_errors; } ?>
+                <br>
                 Please email goosepostbox@gmail.com to help me fix this.
             </div>
             <br> <br> <br>
