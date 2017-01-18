@@ -3,7 +3,8 @@
 /* Global */
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #fff;
+  background-color: #F4F4F4;
+  color: #222;
   transition: background-color 1s ease;
 }
 
