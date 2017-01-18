@@ -67,6 +67,9 @@ class Main extends CI_Controller {
             $location = 'Somewhere';
         }
         $color = $this->input->post('color');
+        if (strpos($color, '#') === false) {
+            $color = '#' . $color;
+        }
         $ip = $_SERVER['REMOTE_ADDR'];
 
         // If room slug is passed, use that room
