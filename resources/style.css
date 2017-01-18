@@ -3,6 +3,8 @@
 /* Global */
 body {
   font-family: "Roboto", sans-serif;
+  background-color: #fff;
+  transition: background-color 1s ease;
 }
 
 /* Start */
