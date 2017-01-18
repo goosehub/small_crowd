@@ -316,7 +316,7 @@ class Main extends CI_Controller {
     function system_start_room_message()
     {
         $message = "";
-        $message .= "Welcome! You&#39;re the first! Others will join soon. Some tips: Embed Youtube, Vimeo, Twitch, Vocaroo, and Images by posting the URL. Pin posts to keep in view as you chat. Share this url to invite others to join.";
+        $message .= "Welcome! You&#39;re the first! Others will join soon. Some tips: Embed Youtube, Vimeo, Twitch, Vocaroo, and Images by posting the URL. Pin posts to keep in view as you chat. Share this url to invite others to join directly.";
         return $message;
     }
 }
