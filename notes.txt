@@ -3,8 +3,6 @@
 ==========================================================================================
 
 High Priority
-    multiple rooms cause expired session issues
-    name injection
 
 Low Priority
     soundcloud embed (api call needed to turn friendly url into embed)

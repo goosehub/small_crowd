@@ -105,7 +105,7 @@ class Main extends CI_Controller {
             'username' => $username,
             'color' => $color
         );
-        $this->session->set_userdata('user_session', $sess_array);
+        $this->session->set_userdata($available_room['slug'], $sess_array);
 
         // System Welcome Message
         $message = 'Welcome ' . $username . ' from ' . $location;
@@ -118,7 +118,7 @@ class Main extends CI_Controller {
     public function room($slug)
     {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
-        $user = $this->get_user_by_session();
+        $user = $this->get_user_by_session($slug);
         if (empty($data['room'])) {
             header('Location: ' . base_url() . '?error=room_not_found');
             return false;
@@ -149,6 +149,7 @@ class Main extends CI_Controller {
 
         // Set parameters
         $room_key = $this->input->post('room_key');
+        $slug = $this->input->post('slug');
         $inital_load = $this->input->post('inital_load');
         if ($inital_load) {
             $limit = 100;
@@ -157,7 +158,7 @@ class Main extends CI_Controller {
             $limit = 5;
         }
 
-        $user = $this->get_user_by_session();
+        $user = $this->get_user_by_session($slug);
         if (!$user || $user['archived']) {
             $error_message['error'] = 'Your session has expired';
             echo json_encode($error_message);
@@ -165,8 +166,7 @@ class Main extends CI_Controller {
         }
         if ($user['room_key'] != $room_key) {
             // This shouldn't happen, so we'll give a more standard handling of it
-            // $error_message['error'] = 'This is not your room';
-            $error_message['error'] = 'Your session has expired';
+            $error_message['error'] = 'This is not your room';
             echo json_encode($error_message);
             return false;
         }
@@ -197,7 +197,7 @@ class Main extends CI_Controller {
         }
 
         // Set variables
-        $user = $this->get_user_by_session();
+        $user = $this->get_user_by_session($this->input->post('slug'));
         $message = htmlspecialchars($this->input->post('message_input'));
 
         // Insert message
@@ -208,7 +208,7 @@ class Main extends CI_Controller {
     public function new_message_validation()
     {
         // This shouldn't happen except by malicious means, but handle gracefully just in case
-        $user = $this->get_user_by_session();
+        $user = $this->get_user_by_session($this->input->post('slug'));
         if (!$user || $user['archived']) {
             $this->form_validation->set_message('new_message_validation', 'Your session has expired');
             return false;
@@ -299,9 +299,9 @@ class Main extends CI_Controller {
         }
     }
 
-    function get_user_by_session()
+    function get_user_by_session($slug)
     {
-        $user_session = $this->session->userdata('user_session');
+        $user_session = $this->session->userdata($slug);
         if (!$user_session) {
             return false;
         }

@@ -1,6 +1,7 @@
 <!-- Main Script -->
 <script>
 var room_key = <?php echo $room['id']; ?>;
+var slug = '<?php echo $room['slug']; ?>';
 var current_message_id = 0;
 var at_bottom = true;
 
@@ -39,7 +40,8 @@ function submit_new_message(event) {
       url: "<?=base_url()?>new_message",
       type: "POST",
       data: { 
-        message_input: message_input
+        message_input: message_input,
+        slug: slug
       },
       cache: false,
       success: function(response) {
@@ -71,6 +73,7 @@ function messages_load(inital_load) {
       type: "POST",
       data: {
         room_key: room_key,
+        slug: slug,
         inital_load: inital_load
       },
       cache: false,
