@@ -32,6 +32,9 @@
     <!-- Bootstrap -->
     <script src="<?=base_url()?>resources/bootstrap/js/bootstrap.min.js"></script>
 
+    <!-- Color Picker -->
+    <script src="<?=base_url()?>resources/jscolor/jscolor.min.js"></script>
+
     <!-- Random Color -->
     <script src="<?=base_url()?>resources/randomColor/randomColor.js"></script>
 

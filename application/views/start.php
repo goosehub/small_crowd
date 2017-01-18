@@ -11,7 +11,7 @@
                 <label class="start_label">Location</label>
                 <input type="text" name="location" id="start_location" class="form-control"/>
                 <label class="start_label">Color</label>
-                <input type="color" name="color" id="start_color" class="form-control"/>
+                <input type="color" name="color" id="start_color" class="jscolor form-control"/>
                 <br>
                 <button type="submit" class="start_join_button btn btn-action form-control"><strong>Join a Room</strong></button>
             </form>
