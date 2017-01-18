@@ -1,7 +1,8 @@
 <!-- Main Script -->
 <script>
 var room_key = <?php echo $room['id']; ?>;
-var slug = '<?php echo $room['slug']; ?>';
+var slug = '<?php echo $room['
+slug ']; ?>';
 var current_message_id = 0;
 var at_bottom = true;
 
@@ -10,7 +11,7 @@ messages_load(true);
 
 // Interval Load
 var load_interval = <?php echo $load_interval; ?>;
-setInterval(function(){
+setInterval(function() {
   messages_load(false);
 }, load_interval);
 
@@ -43,31 +44,31 @@ function submit_new_message(event) {
   // Message input
   var message_input = $("#message_input").val();
   $.ajax({
-      url: "<?=base_url()?>new_message",
-      type: "POST",
-      data: { 
-        message_input: message_input,
-        slug: slug
-      },
-      cache: false,
-      success: function(response) {
-        console.log('submit');
-        // All responses are error messsages
-        if (response) {
-          response = response.replace('<p>', '');
-          response = response.replace('</p>', '');
-          alert(response);
-          return false;
-        }
-        // Empty chat input
-        $('#message_input').val('');
-        // Load log so user can instantly see his message
-        messages_load();
-        // Focus back on input
-        $('#message_input').focus();
-        // Scroll to bottom
-        scroll_to_bottom();
+    url: "<?=base_url()?>new_message",
+    type: "POST",
+    data: {
+      message_input: message_input,
+      slug: slug
+    },
+    cache: false,
+    success: function(response) {
+      console.log('submit');
+      // All responses are error messsages
+      if (response) {
+        response = response.replace('<p>', '');
+        response = response.replace('</p>', '');
+        alert(response);
+        return false;
       }
+      // Empty chat input
+      $('#message_input').val('');
+      // Load log so user can instantly see his message
+      messages_load();
+      // Focus back on input
+      $('#message_input').focus();
+      // Scroll to bottom
+      scroll_to_bottom();
+    }
   });
   return false;
 }
@@ -75,67 +76,68 @@ function submit_new_message(event) {
 // Message Load
 function messages_load(inital_load) {
   $.ajax({
-      url: "<?=base_url()?>load",
-      type: "POST",
-      data: {
-        room_key: room_key,
-        slug: slug,
-        inital_load: inital_load
-      },
-      cache: false,
-      success: function(response) {
-        console.log('load');
-        var html = '';
-        // On inital load, clear loading html
-        if (inital_load) {
-          $("#message_content_parent").html(html);
-        }
-        // Emergency force reload
-        if (response === 'reload') {
-          window.location.reload(true);
-        }
-        // Parse messages and loop through them
-        messages = JSON.parse(response);
-        if (!messages) {
-          return false;
-        }
-        // Handle errors by alerting and rejoining
-        if (messages.error) {
-          alert(messages.error + '. You\'ll be redirected so you can rejoin the room.');
-          window.location = '<?=base_url()?>join_start/<?php echo $room['slug']; ?>';
-          return false;
-        }
-        $.each(messages, function(i, message) {
-          // Skip if we already have this message
-          if (parseInt(message.id) <= parseInt(current_message_id)) {
-            return true;
-          }
-          current_message_id = message.id;
-          // System Messages
-          if (parseInt(message.user_key) === <?php echo $this->system_user_id; ?>) {
-            html += '<div class="system_message ' + message.username + '">' + message.message + '</div>';
-            return true;
-          }
-          // Process message
-          var message_message = process_message(message.message);
-          // Detect if youtube
-          // build message html
-          html += '<div class="message_parent">';
-          html += '<span class="message_face glyphicon glyphicon-user" title="' + message.timestamp + '" style="color: ' + light_color + ';"></span>';
-          if (use_pin(message_message)) {
-            html += '<span class="message_pin glyphicon glyphicon-pushpin" style="color: ' + light_color + ';"></span>';
-          }
-          html += '<span class="message_username" style="color: ' + light_color  + ';">' + message.username + '</span>';
-          html += '<span class="message_message">' + message_message + '</span>';
-          html += '</div>';
-        });
-        // Append to div
-        $("#message_content_parent").append(html);
-        // Stay at bottom if at bottom
-        if (at_bottom || inital_load) {
-          scroll_to_bottom();
-        }
+    url: "<?=base_url()?>load",
+    type: "POST",
+    data: {
+      room_key: room_key,
+      slug: slug,
+      inital_load: inital_load
+    },
+    cache: false,
+    success: function(response) {
+      console.log('load');
+      var html = '';
+      // On inital load, clear loading html
+      if (inital_load) {
+        $("#message_content_parent").html(html);
       }
+      // Emergency force reload
+      if (response === 'reload') {
+        window.location.reload(true);
+      }
+      // Parse messages and loop through them
+      messages = JSON.parse(response);
+      if (!messages) {
+        return false;
+      }
+      // Handle errors by alerting and rejoining
+      if (messages.error) {
+        alert(messages.error + '. You\'ll be redirected so you can rejoin the room.');
+        window.location = '<?=base_url()?>join_start/<?php echo $room['
+        slug ']; ?>';
+        return false;
+      }
+      $.each(messages, function(i, message) {
+        // Skip if we already have this message
+        if (parseInt(message.id) <= parseInt(current_message_id)) {
+          return true;
+        }
+        current_message_id = message.id;
+        // System Messages
+        if (parseInt(message.user_key) === <?php echo $this->system_user_id; ?>) {
+          html += '<div class="system_message ' + message.username + '">' + message.message + '</div>';
+          return true;
+        }
+        // Process message
+        var message_message = process_message(message.message);
+        // Detect if youtube
+        // build message html
+        html += '<div class="message_parent">';
+        html += '<span class="message_face glyphicon glyphicon-user" title="' + message.timestamp + '" style="color: ' + light_color + ';"></span>';
+        if (use_pin(message_message)) {
+          html += '<span class="message_pin glyphicon glyphicon-pushpin" style="color: ' + light_color + ';"></span>';
+        }
+        html += '<span class="message_username" style="color: ' + light_color + ';">' + message.username + '</span>';
+        html += '<span class="message_message">' + message_message + '</span>';
+        html += '</div>';
+      });
+      // Append to div
+      $("#message_content_parent").append(html);
+      // Stay at bottom if at bottom
+      if (at_bottom || inital_load) {
+        scroll_to_bottom();
+      }
+    }
   });
 }
 
@@ -145,8 +147,7 @@ function pin_action(event) {
     $('.pinned').removeClass('pinned')
     $(event.target).addClass('active_pin');
     $(event.target).parent().addClass('pinned')
-  }
-  else {
+  } else {
     $(event.target).removeClass('active_pin');
     $(event.target).parent().removeClass('pinned')
   }
@@ -166,13 +167,13 @@ function process_message(message) {
 
 function use_pin(message) {
   if (
-    string_contains(message, 'message_youtube')
-    || string_contains(message, 'message_vimeo')
-    || string_contains(message, 'message_twitch')
-    || string_contains(message, 'message_vocaroo')
-    || string_contains(message, 'message_video')
-    || string_contains(message, 'message_image')
-    ) {
+    string_contains(message, 'message_youtube') ||
+    string_contains(message, 'message_vimeo') ||
+    string_contains(message, 'message_twitch') ||
+    string_contains(message, 'message_vocaroo') ||
+    string_contains(message, 'message_video') ||
+    string_contains(message, 'message_image')
+  ) {
     return true;
   }
   return false;
@@ -195,8 +196,8 @@ function convert_youtube(input) {
 function convert_vimeo(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vimeo\.com)\/?(\S+)/g;
   if (pattern.test(input)) {
-   var replacement = '<iframe src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="message_vimeo message_content"></iframe>';
-   var input = input.replace(pattern, replacement);
+    var replacement = '<iframe src="//player.vimeo.com/video/$1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="message_vimeo message_content"></iframe>';
+    var input = input.replace(pattern, replacement);
   }
   return input;
 }
@@ -204,8 +205,8 @@ function convert_vimeo(input) {
 function convert_twitch(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:twitch\.tv)\/?(\S+)/g;
   if (pattern.test(input)) {
-   var replacement = '<iframe src="https://player.twitch.tv/?channel=$1&!autoplay" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620" class="message_twitch message_content"></iframe>';
-   var input = input.replace(pattern, replacement);
+    var replacement = '<iframe src="https://player.twitch.tv/?channel=$1&!autoplay" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620" class="message_twitch message_content"></iframe>';
+    var input = input.replace(pattern, replacement);
   }
   return input;
 }
@@ -213,8 +214,8 @@ function convert_twitch(input) {
 function convert_vocaroo(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vocaroo\.com\/i)\/?(\S+)/g;
   if (pattern.test(input)) {
-   var replacement = '<object width="148" height="44" class="message_vocaroo message_content"><param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0"></param><param name="wmode" value="transparent"></param><embed src="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></embed></object>';
-   var input = input.replace(pattern, replacement);
+    var replacement = '<object width="148" height="44" class="message_vocaroo message_content"><param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0"></param><param name="wmode" value="transparent"></param><embed src="http://vocaroo.com/player.swf?playMediaID=$1&autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></embed></object>';
+    var input = input.replace(pattern, replacement);
   }
   return input;
 }
@@ -270,8 +271,7 @@ function toggle_theme(event) {
     $('body').css('background-color', '#F4F4F4');
     $('body').css('color', '#222');
     $('.message_pin').css('border', '0.1px solid #888');
-  }
-  else {
+  } else {
     $(event.target).addClass('active');
     $('body').css('background-color', '#222');
     $('body').css('color', '#F4F4F4');
