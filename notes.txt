@@ -3,7 +3,6 @@
 ==========================================================================================
 
 High Priority
-    Duplicate session expired messages
     shade only if very light or dark
     youtube playlist
 

@@ -4,6 +4,7 @@ var room_key = <?php echo $room['id']; ?>;
 var slug = '<?php echo $room['slug']; ?>';
 var current_message_id = 0;
 var at_bottom = true;
+load_messages = true;
 
 // Initial Load
 messages_load(true);
@@ -11,7 +12,9 @@ messages_load(true);
 // Interval Load
 var load_interval = <?php echo $load_interval; ?>;
 setInterval(function() {
-  messages_load(false);
+  if (load_messages) {
+    messages_load(false);
+  }
 }, load_interval);
 
 // Detect if user is at bottom
@@ -99,10 +102,15 @@ function messages_load(inital_load) {
       if (!messages) {
         return false;
       }
-      // Handle errors by alerting and rejoining
+      // Handle errors
       if (messages.error) {
+        // Prevent stacking errors
+        load_messages = false;
+        // Alert user
         alert(messages.error + '. You\'ll be redirected so you can rejoin the room.');
+        // Redirect to try to rejoin user
         window.location = '<?=base_url()?>join_start/<?php echo $room['slug']; ?>';
+        // Prevent more execution
         return false;
       }
       $.each(messages, function(i, message) {
