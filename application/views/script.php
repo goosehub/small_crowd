@@ -125,7 +125,7 @@ function messages_load(inital_load) {
           return true;
         }
         // Process message
-        var message_message = process_message(message.message);
+        var message_message = urls_to_embed(message.message);
         // Detect if youtube
         // build message html
         html += '<div class="message_parent">';
@@ -159,7 +159,7 @@ function pin_action(event) {
   }
 }
 
-function process_message(message) {
+function urls_to_embed(message) {
   // Order important
   message = convert_youtube(message);
   message = convert_vimeo(message);
