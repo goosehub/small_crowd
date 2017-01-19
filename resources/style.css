@@ -107,9 +107,8 @@ body {
   height: 200px;
 }
 .message_soundcloud iframe {
-  width: 500px;
-  height: 200px;
-
+  width: 420px;
+  height: 100px;
 }
 .message_image {
   max-height: 33vh;

@@ -188,7 +188,7 @@ function use_pin(message) {
 }
 
 function convert_youtube(input) {
-  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com|youtu\.be)\/(?!channel\/)(?!user\/)(?:watch\?v=)?([a-zA-Z0-9]+)(?:\S+)?/g;
+  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com|youtu\.be)\/(?!channel\/)(?!user\/)(?:watch\?v=)?([a-zA-Z0-9_-]+)(?:\S+)?/g;
   if (pattern.test(input)) {
     var replacement = '<span class="message_youtube_parent"><iframe src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen class="message_youtube message_content"></iframe></span>';
     var input = input.replace(pattern, replacement);
@@ -257,7 +257,8 @@ function convert_video_url(input) {
 }
 
 function convert_image_url(input) {
-  var pattern = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png)?(?:\?\S+)?)/gi;
+  // Ignore " to not conflict with other converts
+  var pattern = /(?!.*")([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?(?:jpg|jpeg|gif|png)?(?:\?\S+)?)/gi;
   if (pattern.test(input)) {
     var replacement = '<a href="$1" target="_blank" class="message_image_link message_content"><img class="message_image message_content" src="$1"/></a><br />';
     var input = input.replace(pattern, replacement);
