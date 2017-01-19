@@ -288,16 +288,19 @@ function string_contains(string, sub_string) {
 }
 
 function init_theme() {
+  $('#toggle_theme').text('Switch to Dark Theme');
   $('body').css('background-color', '#F4F4F4');
   $('body').css('color', '#222');
 }
 
 function toggle_theme(event) {
   if ($(event.target).hasClass('active')) {
+    $(event.target).text('Switch to Dark Theme');
     $(event.target).removeClass('active');
     $('body').css('background-color', '#F4F4F4');
     $('body').css('color', '#222');
   } else {
+    $(event.target).text('Switch to Light Theme');
     $(event.target).addClass('active');
     $('body').css('background-color', '#222');
     $('body').css('color', '#F4F4F4');

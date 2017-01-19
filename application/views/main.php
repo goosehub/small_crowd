@@ -11,8 +11,8 @@
   </div>
   <div id="toolbar">
     <a href="<?=base_url()?>" id="join_new" class="btn btn-sm btn-primary">
-      New Room
+      Join a New Room
     </a>
-    <div id="toggle_theme" class="btn btn-sm btn-danger">Dark Theme</div>
+    <div id="toggle_theme" class="btn btn-sm btn-danger">Toggle Theme</div>
   </div>
 </div>

@@ -13,7 +13,7 @@
                 <label class="start_label">Color</label>
                 <input type="color" name="color" id="start_color" class="jscolor form-control"/>
                 <br>
-                <button type="submit" class="start_join_button btn btn-action form-control"><strong>Join a Room</strong></button>
+                <button type="submit" class="start_join_button btn btn-action form-control">Join a Room</button>
             </form>
             <hr>
             <p class="start_subtitle lead text-center">Get paired with <?php echo $this->room_capacity - 1; ?> strangers from around the world</p>

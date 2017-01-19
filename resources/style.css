@@ -7,6 +7,9 @@ body {
   color: #222;
   transition: background-color 1s ease;
 }
+.btn {
+  font-weight: bold;
+}
 
 /* Start */
 .start_title {
@@ -136,9 +139,6 @@ body {
   top: 0;
   left: 0;
   opacity: 0.95;
-}
-#toggle_theme.active {
-  font-weight: bold;
 }
 
 /* Mobile */
