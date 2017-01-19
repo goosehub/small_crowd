@@ -8,7 +8,6 @@ High Priority
         http://stackoverflow.com/questions/17379268/youtube-droped-t-start-time-support-in-direct-url-and-embed-videos
 
 Low Priority
-    soundcloud embed (api call needed to turn friendly url into embed)
     duplicate enter
     Performance audit
     Consider regex on submit instead

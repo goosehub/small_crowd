@@ -164,6 +164,7 @@ function process_message(message) {
   message = convert_youtube(message);
   message = convert_vimeo(message);
   message = convert_twitch(message);
+  message = convert_soundcloud(message);
   message = convert_vocaroo(message);
   message = convert_video_url(message);
   message = convert_image_url(message);
@@ -176,6 +177,7 @@ function use_pin(message) {
     string_contains(message, 'message_youtube') ||
     string_contains(message, 'message_vimeo') ||
     string_contains(message, 'message_twitch') ||
+    string_contains(message, 'message_soundcloud') ||
     string_contains(message, 'message_vocaroo') ||
     string_contains(message, 'message_video') ||
     string_contains(message, 'message_image')
@@ -207,6 +209,30 @@ function convert_twitch(input) {
   var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:twitch\.tv)\/?(\S+)/g;
   if (pattern.test(input)) {
     var replacement = '<iframe src="https://player.twitch.tv/?channel=$1&!autoplay" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620" class="message_twitch message_content"></iframe>';
+    var input = input.replace(pattern, replacement);
+  }
+  return input;
+}
+
+function convert_soundcloud(input) {
+  var pattern = /(?:http?s?:\/\/)?(?:www\.)?(?:soundcloud\.com)(\/\S+\/)(\S+)/g;
+  if (pattern.test(input)) {
+    // Soundcloud requires an api call
+    // We use a placeholder span with id, and will target and fill that span on success
+    var soundcloud_id = new Date().valueOf();
+    var settings = {
+      "url": "http://soundcloud.com/oembed",
+      "method": "POST",
+      "crossDomain": true,
+      "data": {
+        "format": "json",
+        "url": input
+      }
+    }
+    $.ajax(settings).done(function (response) {
+      $('#' + soundcloud_id).html(response.html);
+    });
+    var replacement = '<span id="' + soundcloud_id + '" class="message_soundcloud message_content"></span>';
     var input = input.replace(pattern, replacement);
   }
   return input;

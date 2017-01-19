@@ -43,6 +43,7 @@ body {
   margin-left: 0.1em;
   margin-right: 0.2em;
   font-size: 1em;
+  border: 0.1px solid #333;
   border-radius: 0.3em;
 }
 .message_pin:hover {
@@ -91,7 +92,7 @@ body {
 .pinned .message_face, .pinned .message_username {
   display: none;
 }
-.pinned .message_youtube, .pinned .message_vimeo, .pinned .message_twitch, .pinned .message_video {
+.pinned .message_youtube, .pinned .message_vimeo, .pinned .message_twitch, .pinned .message_soundcloud, .pinned .message_video {
   width: 420px;
   height: 345px;
 }
@@ -104,6 +105,11 @@ body {
 .message_youtube, .message_vimeo, .message_twitch, .message_video {
   width: 250px;
   height: 200px;
+}
+.message_soundcloud iframe {
+  width: 500px;
+  height: 200px;
+
 }
 .message_image {
   max-height: 33vh;
