@@ -3,22 +3,20 @@
 ==========================================================================================
 
 High Priority
-    shade only if very light or dark
-    youtube start time
-        http://stackoverflow.com/questions/17379268/youtube-droped-t-start-time-support-in-direct-url-and-embed-videos
 
 Low Priority
+    youtube start time
+    shade only if very light or dark
+    Abstract urls_to_embed for open source
     duplicate enter
     Performance audit
-    Consider regex on submit instead
-    Examine overgrown pages memory usage
-    Test scripts (test strings)
+    Make test scripts (regex testing urls, naughty strings, etc)
+    Detect instant leave
 
 No Priority
     Image Upload
     Video Upload
     Youtube non video link
-    Detect instant leave
 
 ==========================================================================================
     Documentation

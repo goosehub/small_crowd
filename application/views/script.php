@@ -290,7 +290,6 @@ function string_contains(string, sub_string) {
 function init_theme() {
   $('body').css('background-color', '#F4F4F4');
   $('body').css('color', '#222');
-  $('.message_pin').css('border', '0.1px solid #888');
 }
 
 function toggle_theme(event) {
@@ -298,12 +297,10 @@ function toggle_theme(event) {
     $(event.target).removeClass('active');
     $('body').css('background-color', '#F4F4F4');
     $('body').css('color', '#222');
-    $('.message_pin').css('border', '0.1px solid #888');
   } else {
     $(event.target).addClass('active');
     $('body').css('background-color', '#222');
     $('body').css('color', '#F4F4F4');
-    $('.message_pin').css('border', '0.1px solid #333');
   }
 }
 
