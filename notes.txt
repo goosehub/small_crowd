@@ -3,7 +3,6 @@
 ==========================================================================================
 
 High Priority
-    image embed not always working
     shade only if very light or dark
     youtube start time
         http://stackoverflow.com/questions/17379268/youtube-droped-t-start-time-support-in-direct-url-and-embed-videos

@@ -14,9 +14,11 @@ class Main extends CI_Controller {
         $this->system_start_room_slug = 'start_room';
         $this->system_leave_slug = 'leave';
         $this->system_archive_room_slug = 'archive_room';
-        $this->inactive_wait_time = 60;
+        $this->inactive_user_wait_time = 3 * 60;
+        $this->inactive_room_wait_time = 1 * 60;
         if (is_dev()) {
-            $this->inactive_wait_time = 15;
+            $this->inactive_user_wait_time = 15;
+            $this->inactive_room_wait_time = 15;
         }
     }
 
@@ -278,7 +280,7 @@ class Main extends CI_Controller {
 
     public function archive_inactive_users()
     {
-        $inactive_users = $this->main_model->inactive_users($this->inactive_wait_time);
+        $inactive_users = $this->main_model->inactive_users($this->inactive_user_wait_time);
 
         foreach ($inactive_users as $user) {
             $this->main_model->archive_user_by_id($user['id']);
@@ -291,7 +293,7 @@ class Main extends CI_Controller {
 
     public function archive_inactive_rooms()
     {
-        $inactive_rooms = $this->main_model->inactive_rooms($this->inactive_wait_time);
+        $inactive_rooms = $this->main_model->inactive_rooms($this->inactive_room_wait_time);
 
         foreach ($inactive_rooms as $room) {
             // Archive room
