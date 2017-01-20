@@ -4,7 +4,7 @@ var room_key = <?php echo $room['id']; ?>;
 var slug = '<?php echo $room['slug']; ?>';
 var current_message_id = 0;
 var at_bottom = true;
-load_messages = true;
+var load_messages = true;
 
 // Initial Load
 messages_load(true);
@@ -103,7 +103,7 @@ function messages_load(inital_load) {
         return false;
       }
       // Handle errors
-      if (messages.error) {
+      if (messages.error && load_messages) {
         // Prevent stacking errors
         load_messages = false;
         // Alert user
