@@ -13,10 +13,10 @@ body {
 
 /* Start */
 .start_title {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico', sans-serif;
 }
 .start_label, .start_join_button, .start_subtitle {
-  font-family: 'Righteous', cursive;
+  font-family: 'Righteous', sans-serif;
 }
 #start_footer {
   position: fixed;
@@ -73,7 +73,7 @@ body {
   width: 33vw;
   margin-left: 33vw;
   text-align: center;
-  font-family: 'Righteous', cursive;
+  font-family: 'Righteous', sans-serif;
 }
 .system_message.start_room, .system_message.archive_room {
   font-weight: bold;

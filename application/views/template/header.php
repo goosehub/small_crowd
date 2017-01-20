@@ -16,9 +16,7 @@
     <link rel="icon" href="<?=base_url()?>resources/img/favicon.ico">
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Righteous|Roboto:400,700" rel="stylesheet">
 
     <!-- Bootstrap -->
     <link href="<?=base_url()?>resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
