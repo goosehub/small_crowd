@@ -3,6 +3,8 @@
 ==========================================================================================
 
 High Priority
+    Doube post
+    Double welcome
 
 Low Priority
     youtube start time

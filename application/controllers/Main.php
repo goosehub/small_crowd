@@ -14,7 +14,7 @@ class Main extends CI_Controller {
         $this->system_start_room_slug = 'start_room';
         $this->system_leave_slug = 'leave';
         $this->system_archive_room_slug = 'archive_room';
-        $this->inactive_user_wait_time = 3 * 60;
+        $this->inactive_user_wait_time = 1 * 60;
         $this->inactive_room_wait_time = 1 * 60;
         if (is_dev()) {
             $this->inactive_user_wait_time = 15;

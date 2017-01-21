@@ -45,6 +45,8 @@ init_theme();
 function submit_new_message(event) {
   // Message input
   var message_input = $("#message_input").val();
+  // Empty chat input
+  $('#message_input').val('');
   $.ajax({
     url: "<?=base_url()?>new_message",
     type: "POST",
@@ -62,8 +64,6 @@ function submit_new_message(event) {
         alert(response);
         return false;
       }
-      // Empty chat input
-      $('#message_input').val('');
       // Load log so user can instantly see his message
       messages_load();
       // Focus back on input
@@ -288,9 +288,10 @@ function string_contains(string, sub_string) {
 }
 
 function init_theme() {
-  $('#toggle_theme').text('Switch to Dark Theme');
-  $('body').css('background-color', '#F4F4F4');
-  $('body').css('color', '#222');
+  $('#toggle_theme').text('Switch to Light Theme');
+  $('#toggle_theme').addClass('active');
+    $('body').css('background-color', '#222');
+    $('body').css('color', '#F4F4F4');
 }
 
 function toggle_theme(event) {
