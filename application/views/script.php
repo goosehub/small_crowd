@@ -9,6 +9,9 @@ var window_active = true;
 var page_title = '<?php echo $page_title; ?>';
 var missed_messages = 0;
 
+// Clear loading text
+$("#message_content_parent").html('');
+
 // Initial Load
 messages_load(true);
 
@@ -104,10 +107,6 @@ function messages_load(inital_load) {
     success: function(response) {
       console.log('load');
       var html = '';
-      // On inital load, clear loading html
-      if (inital_load) {
-        $("#message_content_parent").html(html);
-      }
       // Emergency force reload
       if (response === 'reload') {
         window.location.reload(true);
@@ -129,11 +128,13 @@ function messages_load(inital_load) {
         return false;
       }
       $.each(messages, function(i, message) {
-        // Skip if we already have this message
-        if (parseInt(message.id) <= parseInt(current_message_id)) {
-          return true;
-        }
+        // Update latest message id
         current_message_id = message.id;
+        // If window is not active, give feedback in tab title
+        if (!window_active) {
+          missed_messages++;
+          $('title').html('(' + missed_messages + ') ' + page_title);
+        }
         // System Messages
         if (parseInt(message.user_key) === <?php echo $this->system_user_id; ?>) {
           html += '<div class="system_message ' + message.username + '">' + message.message + '</div>';
@@ -151,11 +152,6 @@ function messages_load(inital_load) {
         html += '<span class="message_username" style="color: ' + message.color + ';">' + message.username + '</span>';
         html += '<span class="message_message">' + message_message + '</span>';
         html += '</div>';
-        // If window is not active, give feedback in tab title
-        if (!window_active) {
-          missed_messages++;
-          $('title').html('(' + missed_messages + ') ' + page_title);
-        }
       });
       // Append to div
       $("#message_content_parent").append(html);

@@ -155,7 +155,7 @@ class Main extends CI_Controller {
         // Set parameters
         $room_key = $this->input->post('room_key');
         $slug = $this->input->post('slug');
-        $inital_load = $this->input->post('inital_load');
+        $inital_load = $this->input->post('inital_load') === 'true' ? true : false;
         $last_message_id = $this->input->post('current_message_id');
         if ($inital_load) {
             $limit = 100;

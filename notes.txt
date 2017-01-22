@@ -3,15 +3,17 @@
 ==========================================================================================
 
 High Priority
-    Doube post
-    Double welcome
-    rejoin room without reload page
+    BUG: Doube post
+    BUG: Double welcome
+    FEATURE: rejoin room without reload page
+    BUG: seen more than 4 users
+    FEATURE: system wide message
+
 
 Low Priority
     youtube start time
     shade only if very light or dark
     Abstract urls_to_embed for open source
-    duplicate enter
     Performance audit
     Make test scripts (regex testing urls, naughty strings, etc)
     Detect instant leave
