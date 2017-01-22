@@ -128,6 +128,10 @@ function messages_load(inital_load) {
         return false;
       }
       $.each(messages, function(i, message) {
+        // Skip if we already have this message, although we really shouldn't
+        if (parseInt(message.id) <= parseInt(last_message_id)) {
+          return true;
+        }
         // Update latest message id
         last_message_id = message.id;
         // If window is not active, give feedback in tab title
