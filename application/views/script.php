@@ -5,6 +5,9 @@ var slug = '<?php echo $room['slug']; ?>';
 var current_message_id = 0;
 var at_bottom = true;
 var load_messages = true;
+var window_active = true;
+var page_title = '<?php echo $page_title; ?>';
+var missed_messages = 0;
 
 // Initial Load
 messages_load(true);
@@ -12,10 +15,18 @@ messages_load(true);
 // Interval Load
 var load_interval = <?php echo $load_interval; ?>;
 setInterval(function() {
-  if (load_messages) {
-    messages_load(false);
-  }
+  messages_load(false);
 }, load_interval);
+
+// Detect if window is open
+$(window).blur(function() {
+  window_active = false;
+});
+$(window).focus(function() {
+  missed_messages = 0;
+  $('title').html(page_title);
+  window_active = true;
+});
 
 // Detect if user is at bottom
 var text_to_bottom_css = true;
@@ -65,7 +76,7 @@ function submit_new_message(event) {
         return false;
       }
       // Load log so user can instantly see his message
-      messages_load();
+      messages_load(false);
       // Focus back on input
       $('#message_input').focus();
       // Scroll to bottom
@@ -77,6 +88,9 @@ function submit_new_message(event) {
 
 // Message Load
 function messages_load(inital_load) {
+  if (!load_messages) {
+    return false;
+  }
   $.ajax({
     url: "<?=base_url()?>load",
     type: "POST",
@@ -104,7 +118,7 @@ function messages_load(inital_load) {
         return false;
       }
       // Handle errors
-      if (messages.error && load_messages) {
+      if (messages.error && load_messages && window_active) {
         // Prevent stacking errors
         load_messages = false;
         // Alert user
@@ -137,6 +151,11 @@ function messages_load(inital_load) {
         html += '<span class="message_username" style="color: ' + message.color + ';">' + message.username + '</span>';
         html += '<span class="message_message">' + message_message + '</span>';
         html += '</div>';
+        // If window is not active, give feedback in tab title
+        if (!window_active) {
+          missed_messages++;
+          $('title').html('(' + missed_messages + ') ' + page_title);
+        }
       });
       // Append to div
       $("#message_content_parent").append(html);
