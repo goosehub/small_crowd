@@ -2,7 +2,7 @@
 <script>
 var room_key = <?php echo $room['id']; ?>;
 var slug = '<?php echo $room['slug']; ?>';
-var current_message_id = 0;
+var last_message_id = 0;
 var at_bottom = true;
 var load_messages = true;
 var window_active = true;
@@ -101,7 +101,7 @@ function messages_load(inital_load) {
       room_key: room_key,
       slug: slug,
       inital_load: inital_load,
-      current_message_id: current_message_id
+      last_message_id: last_message_id
     },
     cache: false,
     success: function(response) {
@@ -129,7 +129,7 @@ function messages_load(inital_load) {
       }
       $.each(messages, function(i, message) {
         // Update latest message id
-        current_message_id = message.id;
+        last_message_id = message.id;
         // If window is not active, give feedback in tab title
         if (!window_active) {
           missed_messages++;
