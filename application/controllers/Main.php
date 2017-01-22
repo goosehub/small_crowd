@@ -191,7 +191,6 @@ class Main extends CI_Controller {
             $messages = $this->main_model->load_message_by_last_message_id($room_key, $last_message_id);
         }
 
-
         echo json_encode($messages);
     }
 

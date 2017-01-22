@@ -56,7 +56,6 @@ Class main_model extends CI_Model
         $this->db->from('message');
         $this->db->where('room_key', $room_key);
         $this->db->where('id >', $last_message_id);
-        $this->db->order_by('id', 'asc');
         $query = $this->db->get();
         $result = $query->result_array();
         return $result;
