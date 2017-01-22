@@ -83,7 +83,8 @@ function messages_load(inital_load) {
     data: {
       room_key: room_key,
       slug: slug,
-      inital_load: inital_load
+      inital_load: inital_load,
+      current_message_id: current_message_id
     },
     cache: false,
     success: function(response) {

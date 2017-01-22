@@ -156,6 +156,7 @@ class Main extends CI_Controller {
         $room_key = $this->input->post('room_key');
         $slug = $this->input->post('slug');
         $inital_load = $this->input->post('inital_load');
+        $last_message_id = $this->input->post('current_message_id');
         if ($inital_load) {
             $limit = 100;
         }
@@ -181,10 +182,15 @@ class Main extends CI_Controller {
         $this->main_model->update_room_last_load($user['room_key']);
 
         // Get messages
-        $messages = $this->main_model->load_message_by_limit($room_key, $limit);
+        if ($inital_load) {
+            $messages = $this->main_model->load_message_by_limit($room_key, $limit);
+            // Reverse array for ascending order (Could refactor into sql)
+            $messages = array_reverse($messages);
+        }
+        else {
+            $messages = $this->main_model->load_message_by_last_message_id($room_key, $last_message_id);
+        }
 
-        // Reverse array for ascending order (Could refactor into sql)
-        $messages = array_reverse($messages);
 
         echo json_encode($messages);
     }

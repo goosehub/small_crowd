@@ -50,6 +50,18 @@ Class main_model extends CI_Model
         return $result;
     }
 
+    function load_message_by_last_message_id($room_key, $last_message_id)
+    {
+        $this->db->select('*');
+        $this->db->from('message');
+        $this->db->where('room_key', $room_key);
+        $this->db->where('id >', $last_message_id);
+        $this->db->order_by('id', 'asc');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
+
     function new_message($user_key, $username, $color, $message, $room_key)
     {
         $data = array(

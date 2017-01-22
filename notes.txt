@@ -5,6 +5,7 @@
 High Priority
     Doube post
     Double welcome
+    rejoin room without reload page
 
 Low Priority
     youtube start time
