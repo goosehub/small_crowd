@@ -358,7 +358,15 @@ $config['encryption_key'] = '';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+
+/* 
+Bug fix for issue found on production 2017/04/08 
+http://stackoverflow.com/questions/31042456/session-error-in-codeigniter
+*/
+
+// $config['sess_save_path'] = NULL;
+$config['sess_save_path'] = sys_get_temp_dir();
+
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
