@@ -9,7 +9,6 @@ High Priority
     BUG: seen more than 4 users
     FEATURE: system wide message
 
-
 Low Priority
     youtube start time
     shade only if very light or dark

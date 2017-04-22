@@ -36,8 +36,8 @@ class Main extends CI_Controller {
         $data['page_title'] = site_name();
         $data['room'] = $this->main_model->get_room_by_slug($slug);
         if (empty($data['room'])) {
-            header('Location: ' . base_url() . '?error=room_not_found');
-            return false;
+            $room_id = $this->main_model->create_room($slug);
+            $data['room'] = $this->main_model->get_room_by_id($room_id);
         }
         $this->load->view('template/header', $data);
         $this->load->view('join_start', $data);
@@ -78,8 +78,8 @@ class Main extends CI_Controller {
         if ($slug) {
             $available_room = $this->main_model->get_room_by_slug($slug);
             if (empty($available_room)) {
-                header('Location: ' . base_url() . '?error=room_not_found');
-                return false;
+                $room_id = $this->main_model->create_room($slug);
+                $available_room = $this->main_model->get_room_by_id($room_id);
             }
         }
         // Else, look for room
@@ -123,11 +123,11 @@ class Main extends CI_Controller {
     public function room($slug)
     {
         $data['room'] = $this->main_model->get_room_by_slug($slug);
-        $user = $this->get_user_by_session($slug);
         if (empty($data['room'])) {
-            header('Location: ' . base_url() . '?error=room_not_found');
-            return false;
+            $room_id = $this->main_model->create_room($slug);
+            $data['room'] = $this->main_model->get_room_by_id($room_id);
         }
+        $user = $this->get_user_by_session($slug);
         if ($user['room_key'] != $data['room']['id']) {
             header('Location: ' . base_url() . 'join_start/' . $slug);
             return false;
