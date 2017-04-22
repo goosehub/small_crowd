@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <h1 class="start_title text-center"><?php echo site_name(); ?></h1>
+            <h1 class="start_title text-center"><a href="<?=base_url()?>"><?php echo site_name(); ?></a></h1>
             <p class="start_subtitle lead text-center">You are about to join room <?php echo $room['slug']; ?></p>
             <form action="<?=base_url()?>join_room/<?php echo $room['slug']; ?>" method="post">
                 <input type="hidden" name="slug" id="start_slug" value="<?php echo $room['slug']; ?>"/>
