@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['load'] = "main/load";
+$route['users_load'] = "main/users_load";
 $route['new_message'] = "main/new_message";
 
 $route['default_controller'] = 'main/start';

@@ -132,15 +132,26 @@ class Main extends CI_Controller {
             header('Location: ' . base_url() . 'join_start/' . $slug);
             return false;
         }
+        $data['user_load_interval'] = 5 * 1000;
         $data['load_interval'] = 1 * 1000;
         if (is_dev()) {
             $data['load_interval'] = 4 * 1000;
         }
+        $data['room_capacity'] = $this->room_capacity;
         $data['page_title'] = site_name();
         $this->load->view('template/header', $data);
         $this->load->view('main', $data);
         $this->load->view('script', $data);
         $this->load->view('template/footer', $data);
+    }
+
+    // Load users
+    public function users_load()
+    {
+        // Set room parameter, get users, output to client
+        $room_key = $this->input->post('room_key');
+        $users = $this->main_model->get_users_in_room($room_key);
+        echo json_encode($users);
     }
 
     // Load messages

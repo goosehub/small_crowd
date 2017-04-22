@@ -12,14 +12,21 @@ var missed_messages = 0;
 // Clear loading text
 $("#message_content_parent").html('');
 
-// Initial Load
+// Initial Load Messages
 messages_load(true);
 
-// Interval Load
+// Interval Load Messages
 var load_interval = <?php echo $load_interval; ?>;
 setInterval(function() {
   messages_load(false);
 }, load_interval);
+
+// Load Users
+users_load();
+var user_load_interval = <?php echo $user_load_interval; ?>;
+setInterval(function() {
+  users_load();
+}, user_load_interval);
 
 // Detect if window is open
 $(window).blur(function() {
@@ -88,6 +95,46 @@ function submit_new_message(event) {
   });
   return false;
 }
+
+// User load
+function users_load() {
+  $.ajax({
+    url: "<?=base_url()?>users_load",
+    type: "POST",
+    data: {
+      room_key: room_key
+    },
+    cache: false,
+    success: function(response) {
+      console.log('user load');
+      console.log(response);
+      var users = JSON.parse(response);
+      var user_count = users.length;
+      $('#user_count').html(user_count);
+      var user_list = '';
+      for (var i = 0; i < user_count; i++) {
+        user_list += users[i]['username'];
+        if (i < user_count - 1) {
+          user_list += ', ';
+        }
+      }
+      $('#user_count_parent').prop('title', user_list);
+      $('#user_list').html(user_list);
+    }
+  });
+}
+
+$('#user_count_parent').click(function(){
+  if ($('#user_count_parent').hasClass('active')) {
+    $('#user_count_parent').removeClass('active');
+    $('#user_list_parent').hide();
+  }
+  else {
+    $('#user_count_parent').addClass('active');
+    $('#user_list_parent').show();
+  }
+
+});
 
 // Message Load
 function messages_load(inital_load) {

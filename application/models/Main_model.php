@@ -133,6 +133,21 @@ Class main_model extends CI_Model
         return isset($result[0]) ? $result[0] : false;
     }
 
+    function get_users_in_room($room_id)
+    {
+        $room_id = (int) $room_id;
+        $query = $this->db->query("
+            SELECT room.*, user.* 
+            FROM room
+            LEFT JOIN user
+                ON room.id = user.room_key
+            WHERE user.archived = 0
+            AND room.id = " . $room_id . ";"
+            );
+        $result = $query->result_array();
+        return $result;
+    }
+
     function create_room($slug)
     {
         $data = array(
