@@ -15,7 +15,7 @@
     </a>
     <div id="toggle_theme" class="btn btn-sm btn-danger">Toggle Theme</div>
     <div id="user_count_parent" class="btn btn-default" title="">
-      <span id="user_count"></span>/<?php echo $room_capacity; ?>
+      <span id="user_count">0</span>/<?php echo $room_capacity; ?>
       <span id="user_list_parent" style="display: none;"> | <span id="user_list"></span></span>
     </div>
   </div>
