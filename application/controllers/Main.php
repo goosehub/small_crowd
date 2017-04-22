@@ -91,10 +91,6 @@ class Main extends CI_Controller {
                 $slug = uniqid();
                 $available_room_id = $this->main_model->create_room($slug);
                 $available_room = $this->main_model->get_room_by_id($available_room_id);
-
-                // System Start Room Message
-                $message = $this->system_start_room_message();
-                $result = $this->main_model->new_message($this->system_user_id, $this->system_start_room_slug, '#000000', $message, $available_room['id']);
             }
         }
 
@@ -332,12 +328,5 @@ class Main extends CI_Controller {
             return false;
         }
         return $user;
-    }
-
-    function system_start_room_message()
-    {
-        $message = "";
-        $message .= "Welcome! You&#39;re the first! Others will join soon. Some tips: Embed Youtube, Vimeo, Twitch, SoundCloud, Vocaroo, and Images by posting the URL. Pin posts to keep in view as you chat. Share this url to invite others to join directly.";
-        return $message;
     }
 }

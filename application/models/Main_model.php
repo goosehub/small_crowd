@@ -156,7 +156,20 @@ Class main_model extends CI_Model
             'created' => date('Y-m-d H:i:s', time()),
         );
         $this->db->insert('room', $data);
-        return $this->db->insert_id();
+        $room_id = $this->db->insert_id();
+
+        // System welcome message
+        $message = $this->system_start_room_message();
+        $result = $this->main_model->new_message($this->system_user_id, $this->system_start_room_slug, '#000000', $message, $room_id);
+
+        return $room_id;
+    }
+
+    function system_start_room_message()
+    {
+        $message = "";
+        $message .= "Welcome! You&#39;re the first! Others will join soon. Some tips: Embed Youtube, Vimeo, Twitch, SoundCloud, Vocaroo, and Images by posting the URL. Pin posts to keep in view as you chat. Share this url to invite others to join directly.";
+        return $message;
     }
 
     function create_user($room_key, $username, $location, $color, $ip)
