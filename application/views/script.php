@@ -373,7 +373,7 @@ function toggle_theme(event) {
     $(event.target).addClass('active');
     $('body').css('background-color', '#222');
     $('body').css('color', '#F4F4F4');
-    $('.message_username').css('text-shadow', '0px 1px 0px rgba(244, 244, 244, 0.4)');
+    $('.message_username').css('text-shadow', '0px 1px 0px rgba(244, 244, 244, 0.3)');
   }
 }
 
