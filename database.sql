@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 CREATE TABLE IF NOT EXISTS `room` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) NOT NULL,
-  `archived` int(1) NOT NULL,
+  `archived` int(1) NOT NULL DEFAULT '0',
   `last_load` timestamp NOT NULL,
   `created` timestamp NOT NULL,
   PRIMARY KEY (`id`)
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `location` varchar(250) NOT NULL,
   `color` varchar(8) NOT NULL,
   `IP` varchar(100) NOT NULL,
-  `archived` int(1) NOT NULL,
+  `archived` int(1) NOT NULL DEFAULT '0',
   `last_load` timestamp NOT NULL,
   `created` timestamp NOT NULL,
   PRIMARY KEY (`id`)
