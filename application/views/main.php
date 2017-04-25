@@ -13,7 +13,7 @@
     <a href="<?=base_url()?>" id="join_new" class="btn btn-sm btn-primary">
       Join a New Room
     </a>
-    <div id="toggle_theme" class="btn btn-sm btn-danger">Toggle Theme</div>
+    <div id="toggle_theme" class="btn btn-sm btn-danger active">Switch to Light Theme</div>
     <div id="user_count_parent" class="btn btn-default" title="">
       <span id="user_count">0</span><?php if (!$room['archived']) { ?> / <?php echo $room_capacity; ?> <?php } ?>
       <span id="user_list_parent" style="display: none;"> | <span id="user_list"></span></span>

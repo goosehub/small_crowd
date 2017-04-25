@@ -3,9 +3,13 @@
 /* Global */
 body {
   font-family: "Roboto", sans-serif;
+  background-color: #222;
+  color: #F4F4F4;
+  transition: background-color 1s ease;
+}
+body.light {
   background-color: #F4F4F4;
   color: #222;
-  transition: background-color 1s ease;
 }
 .btn {
   font-weight: bold;
@@ -59,10 +63,15 @@ body {
   display: inline-block;
   vertical-align: top;
 }
-.message_username {
+#message_content_parent .message_username {
   font-weight: bold;
   margin-right: 0.2em;
-  text-shadow: 0px 1px 0px rgba(244, 244, 244, 0.3);
+}
+#message_content_parent .message_username, #message_content_parent .message_face, #message_content_parent .message_pin {
+  text-shadow: 0px 1px 0px rgba(244, 244, 244, 0.2);
+}
+#message_content_parent.light .message_username, #message_content_parent.light .message_face, #message_content_parent.light .message_pin {
+  text-shadow: 0px 2px 2px rgba(34, 34, 34, 0.8);
 }
 .message_username:after {
   content: ':';

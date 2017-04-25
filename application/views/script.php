@@ -354,26 +354,17 @@ function string_contains(string, sub_string) {
   return false;
 }
 
-function init_theme() {
-  $('#toggle_theme').text('Switch to Light Theme');
-  $('#toggle_theme').addClass('active');
-    $('body').css('background-color', '#222');
-    $('body').css('color', '#F4F4F4');
-}
-
 function toggle_theme(event) {
   if ($(event.target).hasClass('active')) {
     $(event.target).text('Switch to Dark Theme');
     $(event.target).removeClass('active');
-    $('body').css('background-color', '#F4F4F4');
-    $('body').css('color', '#222');
-    $('.message_username').css('text-shadow', '0px 2px 2px rgba(34, 34, 34, 0.8)');
+    $('body').addClass('light');
+    $('#message_content_parent').addClass('light');
   } else {
     $(event.target).text('Switch to Light Theme');
     $(event.target).addClass('active');
-    $('body').css('background-color', '#222');
-    $('body').css('color', '#F4F4F4');
-    $('.message_username').css('text-shadow', '0px 1px 0px rgba(244, 244, 244, 0.3)');
+    $('body').removeClass('light');
+    $('#message_content_parent').removeClass('light');
   }
 }
 
