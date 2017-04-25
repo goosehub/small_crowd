@@ -182,7 +182,7 @@ function messages_load(inital_load) {
         // Update latest message id
         last_message_id = message.id;
         // If window is not active, give feedback in tab title
-        if (!window_active) {
+        if (!window_active && !inital_load) {
           missed_messages++;
           $('title').html('(' + missed_messages + ') ' + page_title);
         }
