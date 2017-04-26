@@ -276,7 +276,7 @@ function use_pin(message) {
 }
 
 function convert_at_username(input) {
-  var pattern = /\@\w+/g;
+  var pattern = /^\@\w+/g;
   if (pattern.test(input)) {
     var at_username = input.split(' ')[0];
     if (!at_username) {
