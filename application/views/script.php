@@ -8,6 +8,7 @@ var load_messages = true;
 var window_active = true;
 var page_title = '<?php echo $page_title; ?>';
 var missed_messages = 0;
+var users_array = new Array();
 
 // Clear loading text
 $("#message_content_parent").html('');
@@ -36,6 +37,14 @@ $(window).focus(function() {
   missed_messages = 0;
   $('title').html(page_title);
   window_active = true;
+});
+
+// On tab press in message input
+document.querySelector('#message_input').addEventListener('keydown', function (e) {
+  if (e.which == 9) {
+    autocomplete_username();
+    e.preventDefault();
+  }
 });
 
 // Detect if user is at bottom
@@ -77,7 +86,7 @@ function submit_new_message(event) {
     },
     cache: false,
     success: function(response) {
-      console.log('submit');
+      // console.log('submit');
       // All responses are error messsages
       if (response) {
         response = response.replace('<p>', '');
@@ -106,12 +115,11 @@ function users_load() {
     },
     cache: false,
     success: function(response) {
-      console.log('user load');
-      console.log(response);
       var users = JSON.parse(response);
       var user_count = users.length;
       $('#user_count').html(user_count);
       var user_list = '';
+      users_array = users;
       for (var i = 0; i < user_count; i++) {
         user_list += users[i]['username'];
         if (i < user_count - 1) {
@@ -193,6 +201,8 @@ function messages_load(inital_load) {
         }
         // Process message
         var message_message = urls_to_embed(message.message);
+        // Wrap @username with span
+        message_message = convert_at_username(message_message);
         // Detect if youtube
         // build message html
         html += '<div class="message_parent">';
@@ -212,6 +222,17 @@ function messages_load(inital_load) {
       }
     }
   });
+}
+
+function autocomplete_username() {
+  if ($('#message_input').val().startsWith('@')) {
+    var parsed_text_input = $('#message_input').val().replace('@','').toLowerCase();
+    for (var i = 0; i < users_array.length; i++) {
+      if (users_array[i].username.toLowerCase().startsWith(parsed_text_input)) {
+        $('#message_input').val('@' + users_array[i].username);
+      }
+    }
+  }
 }
 
 function pin_action(event) {
@@ -252,6 +273,20 @@ function use_pin(message) {
     return true;
   }
   return false;
+}
+
+function convert_at_username(input) {
+  var pattern = /\@\w+/g;
+  if (pattern.test(input)) {
+    var at_username = input.split(' ')[0];
+    if (!at_username) {
+      return input;
+    }
+    var replacement = '<span class="at_username">' + at_username + '</span>';
+    var input = input.replace(pattern, replacement);
+  }
+  return input;
+
 }
 
 function convert_youtube(input) {

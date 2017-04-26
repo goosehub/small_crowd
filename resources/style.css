@@ -96,6 +96,11 @@ body.light {
 .system_message.archive_room {
   color: #980000;
 }
+.at_username {
+  font-weight: bold;
+  color: #882D60;
+  vertical-align: bottom;
+}
 
 /* Pinned */
 .pinned {
