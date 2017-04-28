@@ -69,8 +69,6 @@ $('#toggle_theme').click(function(event) {
   toggle_theme(event);
 });
 
-init_theme();
-
 // New Message
 function submit_new_message(event) {
   // Message input
